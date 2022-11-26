@@ -1,0 +1,45 @@
+' ************ Program to Calculate Fractal Dimension of Waveforms
+DECLARE SUB LenCalc (y!(), ymin!, ymax!, N%, Length!)
+DECLARE SUB DataInput (x!, y!, N%)
+DIM x!(300), y!(300)
+CLS
+PRINT "Fractal Dimension of Waveforms": PRINT
+PRINT "Steps (N)", " x", " y", " D": PRINT
+' ******** Get Initial Values **************
+N% = 1
+Length! = 0
+CALL DataInput(x!(N%), y!(N%), N%)
+PRINT, " -,
+ymax! = y!(1)
+ymin! = y!(1)
+' *** Loop to Calculate Fractal Dimension ****
+DO
+N% = N% + 1
+CALL DataInput(x!(N%), y!(N%), N%) ' ***** Data enter here *****
+IF (y!(N%) >= ymax!) THEN ymax! = y!(N%)
+IF (y!(N%) <= ymin!) THEN ymin! = y!(N%)
+CALL LenCalc(y!(), ymin!, ymax!, N%, Length!)
+D! = 1 + (LOG(Length!)-LOG(2)) / LOG(2*(N% - 1))
+PRINT, D!
+LOOP WHILE (N% <= 300)
+END ' ***** End of Main Program *****
+SUB DataInput (x!, y!, N%) ' ***** Subroutine for Data Input *****
+PRINT N%;
+PRINT , ;
+INPUT ; x!
+PRINT , ;
+INPUT ; y!
+END SUB ' ***** End of Data Input *****
+' ****** LenCalc; Subroutine that Calculates the Normalized Length of the Waveform
+SUB LenCalc (y!(), ymin!, ymax!, N%, Length!)
+IF N% = 1 THEN
+PRINT, " -"
+ELSE
+Length! = 0
+FOR i% = 1 TO N%
+y! = (y!(i%) - ymin!) / (ymax! - ymin!)
+IF (i% > 1) THEN Length! = Length! + SQR((y! - yant!) ˆ 2 + (1! / (N% - 1)) ˆ 2)
+yant! = y!
+NEXT i%
+END IF
+END SUB ' ***** End of LenCalc *****

@@ -1,0 +1,5 @@
+function [outputArg1,outputArg2] = changeToBinary(X)
+X1 = X(1:end-1,:);
+X2 =
+end
+

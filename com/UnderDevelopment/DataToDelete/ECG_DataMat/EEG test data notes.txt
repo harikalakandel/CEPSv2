@@ -1,0 +1,8 @@
+16 files:
+BA_a_... 1 to 8 sample rate was 250.
+BA_b_... 1 to 8 sample rate was 500.
+
+These are EEG files with 19 channels of 'raw' time series data, in rows 1-19, approximately 300 seconds long. They have not been cleaned of artefact.
+
+Many of our measures will only be valid for epochs (4-second epochs, for example), because of stationarity issues. 
+You can test the data for stationarity using the Cheynet tests in the GUI. 

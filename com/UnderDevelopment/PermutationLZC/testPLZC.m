@@ -1,0 +1,1 @@
+index = PLZC(rand(100,1),3,2)

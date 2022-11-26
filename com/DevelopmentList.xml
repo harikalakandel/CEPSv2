@@ -1,0 +1,128 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Measurements>   
+  
+
+    <Time_Domain>
+        <RMS></RMS>
+        <RMSSD></RMSSD >
+        <HjorthActivity>O</HjorthActivity>
+        <HjorthMobility>O</HjorthMobility>
+        <HjorthComplexity>O</HjorthComplexity>
+    </Time_Domain>
+
+    <Frequency_Domain>
+        <FastLomb>T</FastLomb>
+        <FFT>T</FFT>
+    </Frequency_Domain>
+
+    <Stationarity_Nonlinearity>
+        <AutoCorrelation></AutoCorrelation >
+        <AutoCovariance></AutoCovariance >
+        <ReverseA_Test></ReverseA_Test>
+        <MovingWindowTest></MovingWindowTest >
+        <Nonlinearity_VM>T</Nonlinearity_VM>
+    </Stationarity_Nonlinearity>
+
+    
+<Dimensions_Exponents>
+        <Higuchi_FD></Higuchi_FD >
+        <FD_M>O</FD_M >
+        <FD_C>O</FD_C>
+        <FD_K>O</FD_K >
+        <FD_P>T</FD_P>
+        <FD_S>O</FD_S>
+        <AllanFactor_AF>O</AllanFactor_AF>
+        <CorrDim_D2>D</CorrDim_D2 >
+        <HurstExponent_H>D</HurstExponent_H>
+        <DFA>T</DFA>
+        <mFmDFA>T</mFmDFA>
+        <LargestLyapunovExp_LLE>D</LargestLyapunovExp_LLE>
+        <RQA>D</RQA>
+        <SQA>T</SQA>
+        <ExtendedPoincare_EPP>O</ExtendedPoincare_EPP >
+        <AsymmetryIndex_ASI>T</AsymmetryIndex_ASI>
+        <ComplexCorrelation_CCM>A</ComplexCorrelation_CCM>
+        <LZC>O</LZC>
+        <Multiscale_LZC>O</Multiscale_LZC>
+    </Dimensions_Exponents>
+
+    <Other_Complexity_Measures>
+        <Complexity_Entropy_Causality_Plane>T</Complexity_Entropy_Causality_Plane>
+        <EmergenceSelf_organisationC>T</EmergenceSelf_organisationC>
+    </Other_Complexity_Measures>
+
+
+    <Shannon_Generalised_Entropies>
+        <ShannonEntropy_SE>O</ShannonEntropy_SE>
+        <RenyiEntropy_RE>T</RenyiEntropy_RE>
+        <TsallisEntropy_TE>T</TsallisEntropy_TE>
+        <AverageEntropy_AE>O</AverageEntropy_AE>
+        <Entropy_of_Entropy_EoE>O</Entropy_of_Entropy_EoE>
+        <ToneEntropy_TE>O</ToneEntropy_TE>
+        <EntropyofDifference_EoD>O</EntropyofDifference_EoD>
+        <KullbachLeiblerDivergence>O</KullbachLeiblerDivergence>
+        <Entropy_MC>D</Entropy_MC>	
+        <Extropy>T</Extropy>
+    </Shannon_Generalised_Entropies>
+
+    <Ordinal_Entropies>
+        <MultiscalePE_mPE>O</MultiscalePE_mPE>
+        <PermutationRenyiEntropy_PRE>T</PermutationRenyiEntropy_PRE>
+        <PermutationTsallisEntropy_PTE>T</PermutationTsallisEntropy_PTE>
+        <ImPE>T</ImPE>
+        <mPM_E>O</mPM_E>
+    </Ordinal_Entropies>
+
+    <Conditional_Entropies>
+        <ConditionalEntropy_CE>D</ConditionalEntropy_CE>
+        <CorrectedConditionalEntropy_CCE>O</CorrectedConditionalEntropy_CCE>
+        <ApEn>O</ApEn>
+        <AvgApEn>T</AvgApEn>
+        <SampEn_DS>O</SampEn_DS>
+        <SampEn_Richman>D</SampEn_Richman>
+        <AvgSampEn>T</AvgSampEn>
+        <CoSEn_and_QSE>T</CoSEn_and_QSE>
+        <FixedSampEn_fSampEn>O</FixedSampEn_fSampEn>
+        <mSE>D</mSE>
+        <mSE_P>T</mSE_P>
+        <ComplexityIndex_CI>T</ComplexityIndex_CI>
+        <FuzzyEntropy_FE>A</FuzzyEntropy_FE>
+        <FuzzyEntropy_CAFE>O</FuzzyEntropy_CAFE>
+    </Conditional_Entropies>
+
+
+    <Other_Entropies>
+        <RCmSE_SD>T</RCmSE_SD>
+        <RCmFE_SD>T</RCmFE_SD>
+        <RCmDE>T</RCmDE>
+        <DistributionEntropy_DistEn>A</DistributionEntropy_DistEn>
+        <SlopeEntropy_SlopeEn>O</SlopeEntropy_SlopeEn>
+        <BubbleEntropy_BE>O</BubbleEntropy_BE>
+        <PhaseEntropy_PhEn>O</PhaseEntropy_PhEn>
+        <MultiscalePhaseEn_mPhEn>O</MultiscalePhaseEn_mPhEn>
+    </Other_Entropies>
+
+
+    <Here_we_could_add_entropies_from_EntropyHub>
+        <AttnEn></AttnEn>
+        <cMSEn></cMSEn>
+        <CosiEn></CosiEn>
+        <GridEn></GridEn>
+        <hMSEn></hMSEn>
+        <IncrEn></IncrEn>
+        <rMSEn></rMSEn>
+    </Here_we_could_add_entropies_from_EntropyHub>
+
+    <Time_Frequency_Domain>
+        <SpectralEntropy_SpEn>T</SpectralEntropy_SpEn>
+        <RmSSpectralEntropy_RmSSpEn>T</RmSSpectralEntropy_RmSSpEn>
+        <DifferentialEntropy_DiffEn>T</DifferentialEntropy_DiffEn>
+    </Time_Frequency_Domain>
+
+    <Ancillary_Methods>
+        <AutoMutualInformation_AMI>T</AutoMutualInformation_AMI>
+        <FalseNearestNeighbours_FNN>T</FalseNearestNeighbours_FNN>
+        <AverageFalseNeighbours_AFN>T</AverageFalseNeighbours_AFN>
+    </Ancillary_Methods>
+  
+</Measurements>

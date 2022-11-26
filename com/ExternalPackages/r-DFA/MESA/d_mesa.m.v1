@@ -1,0 +1,216 @@
+function [f,tau]=d_mesa(x)
+%
+%
+%    d_mesa, dusty's mesa adapted by pf'00 from joelmes.for
+%    x: data ... a COLUMN vector , or many
+%
+%     subroutine to generate maximum entropy prediction
+%
+%
+nsamps=length(x);
+%% functions lopass and detren are defined below
+x=detren(x);
+x=lopass(x);
+ncoef = nsamps/2;
+%
+%
+mfpe=0.0;
+mfl =  30; 
+b=x;
+p=dot(x,x);
+
+p=p/nsamps;
+fpe=(nsamps+1)/(nsamps-1)*p;
+ftemp = fpe;
+fpe=0.0;
+ao=zeros(size(x));
+a=ao;
+a(1)=-1;
+ao(1)=-1;
+nn=ncoef-1;
+
+%     do 1000 m=1,nn
+for m=1:nn
+  nmm=nsamps-m;
+  %
+  %        update b,b'
+  %
+  
+  %   do 200 i=1,nmm
+  
+  for i=1:nmm
+    x(i)=x(i)-a(m)*b(i);
+    b(i)=b(i+1)-a(m)*x(i+1);
+    % 200   continue
+  end
+  %
+  %     compute a(m,m)
+  %
+  nom=0;
+  denom=0;
+  % do 300 i=1,nmm
+  for i=1:nmm
+    nom=nom+x(i)*b(i);
+    denom=denom+x(i)*x(i)+b(i)*b(i);
+    %300   continue
+  end
+  a(m+1)=2*nom/denom;
+  p=p*(1-a(m+1)*a(m+1));
+  %
+  %     compute akaike fpe
+  %
+  no=nsamps/2;
+  if (~(m == 1 | m >= no))
+    % if(m.eq.1.or.m.ge.no)go to 1100
+    fpe=(nsamps+m)/(nsamps-m)*p;
+    fpe=fpe/ftemp;
+    fpe=log10(fpe);
+    %1100  continue
+  end
+  %
+  %     compute the rest of the column in place
+  %
+  if (~(m==1))
+    %      if (m.eq.1) go to 401
+    %      do 400 i=2,m
+    i=2:m;
+    ao(i)=a(i)-a(m+1)*a(m+2-i);
+    %for i=2:m
+    %  ao(i) = a(i)-a(m+1)*a(m+2-i);
+    %400   continue
+    %end
+    %
+    %      do 425 i=2,m
+    %for i=2:m
+    %      a(i)=ao(i)
+    %425   continue
+    %end
+    i=2:m;  
+    a(i)=ao(i);
+    %401   continue
+  end
+  ao(m+1)=a(m+1);
+  if (m==mfl)   
+    lfilt=m+1;
+    mfpe=fpe;
+    po = p;
+    %do 3000 j=1,lfilt
+    j=1:lfilt;
+    %best(j)=ao(j); 
+    best=ao(j);
+  end
+  %     if(m.eq.mfl) go to 597
+  %if (~(m==mfl) & (~(fpe >= mfpe) | (~(m < mfl))))
+  %if (~(m==mfl))
+  
+  %  if(fpe.ge.mfpe)go to 1001
+  %     this next step sets the minimum filter length
+  %     it's best not to activate it unless your data are
+  %     impossibly noisy, and the program keeps blowing up
+  %      if(m.lt.mfl)go to 1001
+  %      continue
+  %
+  %     write out set of coefficients for filter with lowest fpe
+  %
+  %597   continue
+  %end
+  %      lfilt=m+1
+  %      mfpe=fpe
+  %      po = p
+  %      do 3000 j=1,lfilt
+  %      best(j)=ao(j)
+  %3000  continue
+  %1001  continue
+  %end
+  %1000  continue
+end
+%
+%     fill array with coeff. for proper length filter
+%
+%42    continue
+%
+ncoef=lfilt;
+a(1) = -1;
+%     fix the signs
+%
+i=1:ncoef;
+best(i)=-best(i);
+%500   continue
+%
+%
+%
+%     this part of the program computes the mesa spectrum and
+%     writes the spectrum estimates to disk
+%
+%
+fmin=2.0/(nsamps);
+fmax=0.5;
+[f,tau]=mesa(fmin,fmax,nsamps,ncoef,po,best);
+%
+%      go to 111
+%
+
+function z=detren(y)
+n=length(y);
+x=(1:n)';
+[m,b]=slope(x,y);
+z=y-m*x-b;
+
+function y=lopass(x)
+a=[ 3.414213, 4.768372e-7, 0.5857863];
+b=[1 2 1 ];
+z=[(a(1)-b(1))*x(1)/a(1), ...
+   ((a(1)-b(1))*x(2)+(a(2)-b(2))*x(1))/ a(1)];
+% zi=[alpha, beta]=>
+% y(1)=alpha+b(1)x(1)/a(1)
+% y(2)=beta+(b(1)x(2)+b(2)x(1)-a(2)y(1))/a(1)
+% solving for y(1)=x(1) and y(2)=x(2) we obtain
+% alpha = (b(1)-a(1))*x(1)
+% beta = b(1)x(2)+b(2)x(1)-a(1)x(2)-a(2)x(1)
+y=filter(b,a,x,z);
+
+function [f,tau]=mesa(fmin,fmax,nsamps,ncoef,po,best)
+%
+%     subroutine to compute samples of a mesa spectrum from a
+%     prediction error filter
+%
+%     fmin,fmax   the range of frequencies to compute
+%     (cycles per sample)
+%     f  a real array at least nsamps long to contain
+%     the sampled frequency values.
+%     nsamps       the number of frequency values to compute
+%     a  a real array of prediciton error filter coefficients
+%     ncoef        the number of coefficients in the prediction error
+%     filter.  the first coefficient is always one in a prediction
+%     error filter.
+%     p  the output power of the prediction error filter.
+%
+%      real imag
+%      dimension best(8000),x(8000),b(8000),a(8000),f(8000),tau(8000)
+%      common x,b,a,best,f,tau
+pi2=6.2831830717959;
+%do 105 i=1,nsamps
+f=zeros(1,nsamps);
+tau=zeros(1,nsamps);
+for i=1:nsamps
+  freq=fmin+(i-1)*(fmax-fmin)/(nsamps-1);
+  tau(i)=1/freq;
+  ream=0;
+  imag=0;
+  %      do 50 j=1,ncoef
+  j=1:ncoef;
+  omega=(-pi2*freq*j);
+  ream=dot(best(j),cos(omega));
+  imag=dot(best(j),sin(omega));
+  %50    continue
+  f(i)=po/(ream*ream+imag*imag)/10;
+
+  %      write (14,543) f(i)/10, tau(i)
+  %543   format (6x,f18.3,6x,f15.6)
+  % 105   continue
+end
+f=f';
+%      tag = -5000
+%      write (14,543) tag,tag
+%      return
+%      end

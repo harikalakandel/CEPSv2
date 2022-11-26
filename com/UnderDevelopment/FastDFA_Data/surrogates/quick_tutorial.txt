@@ -1,0 +1,95 @@
+Basically, these are all very easy-to-use functions, if you know what you're
+doing.  So, let's assume you read the Schreiber and Schmitz review paper on
+surrogates.  This may not seem fair to you, but if so, I don't think this
+collection of m-files is meant for you.  I'm just trying to help out fellow
+researchers, who want to apply surrogate data to their own projects, by
+sharing my own code.  I would also like to take this opportunity to ask all
+researchers to make their code available (after publishing new methods,
+naturally), so that people can try the algos and methods for themselves.
+This would make life *so* much easier.  But enough of that, I'm starting to
+sound like an old man, frustrated by decades of research, which, for the
+record, I am not.
+
+;P
+
+I have included two functions to generate time series, one linear
+> Xlin = generate_ar_signal ([.5 -.3 .3], 1000);
+which generates a 1000-samples linear AR(3) signal with coeffs [.5 -.3 .3],
+and one nonlinear
+>> Xnl = generate_henon (1000);
+which generates a realisation of the chaotic Henon Map.
+
+Suppose we want to generate a surrogate (linearised version) of Xnl, using
+the AR-method.  All we need to do is:
+>> [Xs,MDL] = generate_AR (Xnl, 10);
+where 10 is the maximal AR order to consider.  What this function does, is
+fit progressively higher-order AR-models to the data, and penalises the
+prediction error using the minimal description length.  This can be
+visualised using the second output argument:
+>> plot (MDL(:,1), MDL(:,2));
+>> xlabel ('AR order'); ylabel ('MDL');
+
+The other surrogate data generation methods for time series work in the same
+way.  When only the first argument (the original time series) is provided,
+the default parameters are used, which are usually just fine.  So,
+
+>> Xs = generate_whatever_type_of_surrogate_time_series (Xnl);
+
+will usually do the trick.  For a more detailed description of the
+options, you can look at use the help function.  It is not my intention to
+provide you with all the bits and pieces you need to understand everything
+by itself: again, I'm assuming you've read Schreiber and Schmitz (2000).
+
+Right, why do we need surrogate data?  Mostly to perform signal nonlinearity
+analyses (other applications exist, though, and I've included some -> check
+out the index.txt), so let's try that, using a nonlinearity statistic which 
+measures the asymmetry due to time reversal, computed by comp_rev.m
+
+>> Xnl = generate_henon (1000);
+>> Tnl = comp_rev (Xnl);
+>> n_surr = 24;		% Number of surrogates
+>> Tnls = zeros(n_surr,1);
+>> for n=1:n_surr, Xs = generate_iAAFT(Xnl);Tnls(n) = comp_rev(Xs);end
+>> hist(Tnls),A=axis;line([Tnl Tnl], A(3:4));
+
+So, now you can see the distribution of the test statistic under the
+assumption of the null (Ts), and the vertical line denoting the value of the test
+statistic for the original time series (To).  Clearly, To is not drawn from
+this distribution, so you can safely conclude that Xnl is a nonlinear signal.
+Trying the same for the linear signal,
+
+>> Xlin = generate_ar_signal ([.5 -.3 .3], 1000);
+>> Tlin = comp_rev (Xlin);
+>> n_surr = 24;		% Number of surrogates
+>> Tlins = zeros(n_surr,1);
+>> for n=1:n_surr, Xs = generate_iAAFT(Xlin);Tlins(n) = comp_rev(Xs);end
+>> hist(Tlins),A=axis;line([Tlin Tlin], A(3:4));
+
+you'll see that the vertical line lies within the null distribution, so you
+can conclude that Xlin is linear.
+
+There exist several ways for statistically testing whether To is drawn
+from Ts, and I have only implemented one of them (the easiest, which
+also happens to be the one I always use): the rank-testing procedure.
+Basically, [To;Ts(:)] is sorted in increasing order, and the rank index
+for To is returned.  If this rank is unity or 25, this means that it
+lies in the tail of the distribution, and the null can be rejected
+(two-tailed test) with a significance of p=2*(1/(n_surr+1)).  So:
+>> ranktest(Tnl,Tnls)
+ans =
+     1
+%%%% Reject the null hypothesis of linearity
+>> ranktest(Tlin,Tlins)
+ans =
+     5
+%%%% Accept the null hypothesis of linearity
+Increasing the number of surrogates (n_surr) will boost your confidence at
+rejecting/accepting the null.
+
+Well, that's about it.  I hope this bunch of code will help some people out.
+For any suggestions/remarks, feel free to contact me:
+temu@neuro.kuleuven.ac.be
+URL: http://134.58.34.50/temu
+
+
+

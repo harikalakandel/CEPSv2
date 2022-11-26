@@ -1,0 +1,61 @@
+function mcpbdn(varargin)
+
+%From the book 'Computation of Special Functions.'
+% by Shanjie Zhang, and Jianming Jin, New York : Wiley, c1996.
+
+
+%       =============================================================
+%       Purpose: This program computes parabolic cylinder functions
+%                Dn(z) for an integer order and a complex argument
+%                using subroutine CPBDN
+%       Input :  x --- Real part of z
+%                y --- Imaginary part of z
+%                n --- Order of Dn(z)
+%       Output:  CPB(|n|) --- Dn(z)
+%                CPD(|n|) --- Dn'(z)
+%       Example:
+%                z = 5.0+ 5.0 i
+
+%     n     Re[Dn(z)]      Im[Dn(z)]      Re[Dn'(z)]     Im[Dn'(z)]
+%   -----------------------------------------------------------------
+%     0   .99779828D+00  .66321897D-01 -.23286910D+01 -.26603004D+01
+%     1   .46573819D+01  .53206009D+01  .26558457D+01 -.24878635D+02
+%     2  -.43138931D+01  .49823592D+02  .14465848D+03 -.10313305D+03
+%     3  -.28000219D+03  .21690729D+03  .12293320D+04  .30720802D+03
+%     4  -.24716057D+04 -.46494526D+03  .38966424D+04  .82090067D+04
+%    -1   .10813809D+00 -.90921592D-01 -.50014908D+00 -.23280660D-01
+%    -2   .24998820D-02 -.19760577D-01 -.52486940D-01  .47769856D-01
+%    -3  -.15821033D-02 -.23090595D-02 -.68249161D-03  .10032670D-01
+%    -4  -.37829961D-03 -.10158757D-03  .89032322D-03  .11093416D-02
+%       =============================================================
+
+clear all; %clear functions;
+
+persistent cpb cpd ; 
+
+format_10=['%1x','%3d',repmat('%16.8f',1,4)];
+format_20=['%1x','N =','%3d',',   z =x+iy :','%6.2f','+','%6.2f',' i'];
+
+ if isempty(cpb), cpb=zeros(1,100+1); end;
+ if isempty(cpd), cpd=zeros(1,100+1); end;
+[writeErrFlag]=writeFmt(1,['%*g'],'''Please enter n, x and y ''');
+% READ(*,*)N,X,Y
+% WRITE(*,20)N,X,Y
+n=5;
+x=5;
+y=5;
+z=complex(x,y);
+n0=fix(abs(n));
+[n,z,cpb,cpd]=cpbdn(n,z,cpb,cpd);%functionCalledOnThisLine
+[writeErrFlag]=writeFmt(1,[]);
+if(n >= 0);
+[writeErrFlag]=writeFmt(1,['%*g','%*g'],'''  n     Re[Dn(z)]       Im[Dn(z)]       ''','''Re[Dn''(Z)]      IM[DN''(Z)]''');
+else;
+[writeErrFlag]=writeFmt(1,['%*g','%*g'],''' -n     Re[Dn(z)]       Im[Dn(z)]       ''','''Re[Dn''(Z)]      IM[DN''(Z)]''');
+[writeErrFlag]=writeFmt(1,['%*g','%*g'],''' -n     Re[Dn(z)]       Im[Dn(z)]       ''','''Re[Dn''(Z)]      IM[DN''(Z)]''');
+end;
+[writeErrFlag]=writeFmt(1,['%*g','%*g'],'''-------------------------------------------''','''-------------------------''');
+for  i=0:n0;
+[writeErrFlag]=writeFmt(1,[format_10],'i','cpb(i+1+1)','cpd(i+1+1)');
+end;  i=n0+1;
+end %program mcpbdn

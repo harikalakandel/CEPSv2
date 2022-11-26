@@ -1,0 +1,24 @@
+Default Parameters in HRV Analysis
+1) 
+Approximate Entropy
+Embedded dimension 	m	2
+Tolerance       		r	0.2 (xSD)
+
+2) 
+Sample Entropy
+Embedded dimension 	m	3
+Tolerance       		r	0.2 (xSD)         
+
+
+
+Fractal
+
+3)
+DFA  short term 		n1    	4 - 11 (beats)
+DFA long term		n2	12 - 100 (beats)
+
+4)
+Higuche
+KMax			6
+
+

@@ -1,0 +1,513 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<AllParameters>   
+   
+  <dbFileParam fName="defaultParam">
+         <INIT>
+            <SampleRate>25</SampleRate>
+            <EpochTimeInSecond>2</EpochTimeInSecond>
+            <StartTimeInSecond>1</StartTimeInSecond>
+            <TotalObservationTimeSecond>20</TotalObservationTimeSecond>
+            <MaxLengthInSecond>4</MaxLengthInSecond>
+            <Scale>1</Scale>
+            <ScaleSlideBy>1</ScaleSlideBy>
+        </INIT>
+        <OUTLIERS>
+            <MedianW>10</MedianW>
+            <IsPerEpoch>1</IsPerEpoch>
+        </OUTLIERS>
+        
+        
+        <KSTEST>
+            <alpha desc="level of significant">0.05</alpha>
+        </KSTEST>
+        
+        
+        <SWTEST>
+            <alpha desc="level of significant">0.05</alpha>
+        </SWTEST>
+        
+        
+        <AUTO_COVARANCE>
+            <lagK>1</lagK>   
+        </AUTO_COVARANCE> 
+        
+        <AUTO_CORRELATION>
+            <numLag>20</numLag>
+        </AUTO_CORRELATION> 
+        
+        
+        <RA_Test>
+            <method desc="1 for method1 2 for method 2">1</method>
+        </RA_Test>
+        
+        
+        <M_WINDOW>                
+           <m desc="window length">2</m>
+           <t1 desc="threshold1">0.25</t1>
+           <t2 desc="threshold2">0.50</t2>
+        </M_WINDOW>
+        
+        
+         <HIGUNCHI_FD>
+            <KMax desc="maximum number of sub-series composed from the original">6</KMax>
+        </HIGUNCHI_FD>
+        
+         <ALAN_FACTOR_AF>
+            <nWindow desc="number of windows">5</nWindow>
+        </ALAN_FACTOR_AF>
+        
+        
+        
+        
+         <CORRDIM>
+            <m desc="enbedding dimension">2</m>
+            <tau desc="time delay">1</tau>          
+        </CORRDIM>
+        
+         <DFA>    		
+            <m desc="embeded dimension">5</m>
+            <k desc="order">2</k>           
+        </DFA>
+        
+        
+          <RQA>    		
+            <m desc="enbedding dimension">10</m>            
+            <tau desc="time delay">1</tau>
+            <r desc="threshold ">3.1623</r>
+            <minLine desc="minimal limit of vert and Horzt line pattern">2</minLine>	
+        </RQA>
+        
+        
+         <EPP>
+            <K desc="maximum steps or lags">2</K>
+        </EPP>
+        
+        <M_LZC>
+            <scale desc="Scale-odd numbers separated by comma">1,3,5</scale>
+        </M_LZC>
+        
+        <LLE>                
+           <m desc="embeded dimension">10</m>
+           <tau desc="time delay">10</tau>
+           <meanperiod desc="mean period">2</meanperiod>
+           <maxiter desc="maxiter">50</maxiter>
+        </LLE>
+        
+        
+        
+        <SHANNON_EN>
+            <m desc="enbedding dimension">3</m>
+            <numInt desc="number Integer">6</numInt>
+        </SHANNON_EN>
+        
+        <Permutation_JS_Complexity>
+            <m desc="enbedding dimension">3</m>
+            <tau desc="time Delay">2</tau>
+        </Permutation_JS_Complexity>
+        
+        <Tsallis_Permutation_Entropy>
+            <m desc="enbedding dimension">3</m>
+            <tau desc="time Delay">2</tau>
+            <k desc="tsallis order">2</k>
+        </Tsallis_Permutation_Entropy>
+        
+        <Renyi_Permutation_Entropy>
+            <m desc="enbedding dimension">3</m>
+            <tau desc="time Delay">2</tau>
+            <k desc="Renyi order">2</k>
+        </Renyi_Permutation_Entropy>
+
+       <Edge_PE>
+            <m desc="enbedding dimension">3</m>
+            <t desc="time Delay">2</t>
+            <r desc="sensitivity">1</r>
+        </Edge_PE>
+        
+        
+         <AvgApEn_Profile>
+            <m desc="enbedding dimension">3</m>
+        </AvgApEn_Profile>
+        
+         <AvgSampEn_Profile>
+            <m desc="enbedding dimension">3</m>
+         </AvgSampEn_Profile>
+
+       <APP_E_LIGHT_W>
+           <l desc="window Length">-111</l>
+           <r desc="Similarity Measures">-111</r>
+        </APP_E_LIGHT_W>
+        
+        
+        
+        <EN_MOCHAN>
+            <m desc="enbedding dimension">3</m>
+            <tau desc="number Integer">6</tau>
+        </EN_MOCHAN>
+        
+        
+        <TSALLIS_ENTROPY>
+            <q desc="Entropic Index">0.5</q>
+        </TSALLIS_ENTROPY>
+        
+        
+        <AE>
+            <binsize desc="Bin Size">55</binsize>
+            <scale desc="Scale">2</scale>
+            <min desc="Min">0.3</min>
+            <max desc="Max">1.6</max>
+        </AE>
+        
+        
+        <EOE>
+            <binsize desc="Bin Size">55</binsize>
+            <scale desc="Scale">2</scale>
+            <min desc="Min">0.3</min>
+            <max desc="Max">1.6</max>
+        </EOE>
+        
+        
+        <RENYI_ENTROPY>
+            <q desc="Entropic Index">0.25</q>
+        </RENYI_ENTROPY>
+        
+         <TONE_ENTROPY>
+            <tau desc="time lag">3</tau>
+        </TONE_ENTROPY>
+        
+        <M_PE>    		
+            <m desc="embedded dimension">5</m>
+            <tau desc="time lag">1</tau>
+            <scale desc="scale factor">15</scale>
+        </M_PE>
+        
+        
+        <AAPE>    		
+            <m desc="order">6</m>
+            <t desc="time delay">1</t>	
+            <a desc="adjusting coefficient">0.5</a>	
+        </AAPE>
+        
+        <IMPE>    		
+            <m desc="order of permuation entropy">2</m>
+            <t desc="delay time of permuation entropy">1</t>	
+            <scale desc="scale factor">15</scale>	
+        </IMPE>
+        
+        
+        <MPM_E>    		
+            <m desc="order of permuation entropy">3</m>
+            <t desc="delay time of permuation entropy">1</t>     
+            <scale desc="scale" >15</scale>
+        </MPM_E>
+        
+                
+        
+         <APPROX_EN>
+            <m desc="window length">2</m>
+            <r desc="similarity Measure">0.2</r>	
+        </APPROX_EN>
+        
+        
+         <CONDITIONAL_EN>
+            <m desc="embedding dimension">10</m>
+            <numInt desc="number of uniform interval">6</numInt>	
+        </CONDITIONAL_EN>
+        
+        
+         <CorrectedCE>
+            <m desc="embedding dimension">10</m>
+            <numInt desc="number of uniform interval">6</numInt>	
+        </CorrectedCE>
+        
+        
+        <SAMPLE_ENTROPY>
+            <m desc="enbedding dimension">2</m>
+            <r desc="threshold">0.2</r>
+            <tau desc="time delay">1</tau>
+        </SAMPLE_ENTROPY>
+        
+
+       <COEFF_SE>
+            <m desc="enbedding dimension">2</m>
+            <cosR desc="threshold">0.2</cosR>
+            <tau desc="time delay">1</tau>
+       </COEFF_SE>
+
+
+        <APEn_LW>
+            <m desc="enbedding dimension">2</m>
+            <r desc="threshold">0.2</r>
+        </APEn_LW>
+        
+        <Cont_CS>
+            <min desc="min Value">2</min>
+            <max desc="max Value">5</max>
+            <distSS desc="Dist Sample Size">10</distSS>
+        </Cont_CS>
+        
+        
+        <SAMPLE_ENTROPY_R>
+            <m desc="enbedding dimension">2</m>
+            <r desc="threshold">0.2</r>
+        </SAMPLE_ENTROPY_R>
+        
+        <COMPLEX_IND>
+            <m desc="pattern length">3</m>
+            <r desc="similsrty radious">2</r>
+            <tmax desc="time lag">10</tmax>
+        </COMPLEX_IND>
+        
+        
+        <COS_EN>
+            <cosR desc="cosR">0.2</cosR>
+            <m desc="embeded dimension">2</m>
+            <tau desc="time lag">1</tau>
+        </COS_EN>
+        
+         <Fixed_SAMP_EN>
+             <nWindow>20</nWindow>
+            <fnstep desc="factor of number of steps">0.05</fnstep>
+            <m desc="enbedding dimension">1</m>
+            <r desc="threshold">0.3</r>
+        </Fixed_SAMP_EN>
+        
+        
+        <MSE>
+            <m desc="pattern length">2</m>
+            <r desc="radius of similarity">0.2</r>
+            <tau desc="maximum No. coarse-grainings">20</tau>
+        </MSE>
+        
+        
+        
+        <FUZZY_ENTROPY>
+            <m desc="enbedding dimension">2</m>
+            <mf desc="membership function">1</mf>
+            <rn desc="threshold">0.3</rn>
+            <local desc=" is local in combo value -1 therefore local 2  and global 1">1</local>
+            <tau desc="time delay">1</tau>
+        </FUZZY_ENTROPY>
+        
+        
+         
+         <FUZZY_ENTROPY_CAFE>
+            <m desc="size of the pattern m-motif m must be  greater than 1">2</m>
+            <type desc="T-Translation R-vertical Reflexion I-Inversion G-Glide reflexion">Translation -T</type>
+            <r desc="amplitude of the tolerance">0.2</r>
+            <centering desc=" is local in combo value -1 therefore local 2  and global 1">Non-Centering -0</centering>
+            <p desc="time delay">2</p>
+        </FUZZY_ENTROPY_CAFE>
+        
+       
+        
+        <DISTRIBUTION_ENTROPY>
+            <m desc="enbedding dimension">3</m>            
+            <binNum desc="Number of Bin">64</binNum>         
+            <tau desc="time delay">8</tau>  
+        </DISTRIBUTION_ENTROPY>
+        
+         
+        <RCMSE_STD>    		
+            <m desc="enbedding dimension">2</m>
+            <r desc="threshold">0.15</r>
+            <tau desc="time lag">1</tau>
+            <scale desc="scale factor">15</scale>	
+        </RCMSE_STD>
+        
+        
+         <RCMFE_STD>    		
+            <m desc="enbedding dimension">2</m>
+            <r desc="threshold">0.15</r>
+            <tau desc="time lag">1</tau>
+            <n desc="fuzzy power">2</n>
+            <scale desc="scale factor">15</scale>	
+        </RCMFE_STD>
+        
+        
+        
+        <RCMDE>    		
+            <m desc="enbedding dimension">2</m>
+            <c desc="number of classes ">6</c>
+            <tau desc="time lag">1</tau>
+            <scale desc="scale factor">15</scale>	
+        </RCMDE>
+       
+        
+        <SLOPE_EN>    		
+            <m desc="enbedding dimension">6</m> 
+            <gamma desc="threshold gamma">1</gamma>
+            <delta desc="time lag">0.001</delta>            
+        </SLOPE_EN>
+        
+        
+         <BUBBLE_EN>    		
+            <m desc="enbedding dimension">10</m>            
+        </BUBBLE_EN>
+        
+        
+        <PHASE_EN>    		
+            <k desc="number of sector">16</k>  
+            <tau desc="time delay">1</tau>
+        </PHASE_EN>
+        
+        
+        <M_PHASE_EN>    		
+            <k desc="number of sector">16</k>  
+            <tau desc="time delay">1</tau>
+            <scale desc="time delay">1</scale>
+        </M_PHASE_EN>
+        
+        
+        <FNN>
+            <minDim desc= "minimum Dimension">1</minDim>
+            <maxDim desc= "maximum Dimension">10</maxDim>
+            <tau desc= "Time Delay">1</tau>
+            <rt desc= "threshold">2</rt>
+        </FNN>
+        
+        
+       <AFN>
+            <binsize desc= "bin size">2</binsize>
+            <tmax desc= "maximum time delay">10</tmax>            
+        </AFN>
+        
+        
+        
+        <AMI>
+            <binsize desc= "bin size">2</binsize>
+            <tmax desc= "maximum time delay">10</tmax>            
+        </AMI>
+        
+        
+        
+        <CCM>    		
+            <k desc="lag">2</k>            
+        </CCM>
+
+      <COMPOSIT_MSE>    		
+            <scale>3</k>            
+        </COMPOSIT_MSE>
+        
+        <EOD>
+            <m desc="enbedding dimension">4</m>
+            <shift desc="shift">1</shift>
+          
+        </EOD>
+        
+         <KLD>
+            <m desc="enbedding dimension">4</m>
+            <shift desc="shift">1</shift>
+          
+        </KLD>
+        
+        
+       
+        <MODIFIED_MSEY>    		
+            <scale >-1111</scale>
+        </MODIFIED_MSEY>
+        
+        <ATTN_EN>
+            <logx desc='Logx 0 to 4'>2</logx>
+        </ATTN_EN>
+
+       <HRM_MEASURES>
+            <tau>5</tau>
+        </HRM_MEASURES>
+        
+        
+               
+          
+        <COSI_EN>
+             <m desc="enbedding dimension">2</m>
+             <tau desc= "Time Delay positive integer">1</tau>
+             <r desc="Angular threshold">0.1</r>
+             <logx desc="Logarithm base a positive integer 0 for natural number">2</logx>
+        </COSI_EN>
+        
+        
+        <GRID_EN>
+             <m desc="enbedding dimension">3</m>
+             <tau desc= "Time Delay positive integer">1</tau>
+         
+             <logx desc="Logarithm base a positive integer  0 for natural number">2</logx>
+        </GRID_EN>
+        
+       <AUTO_MUTUAL_INFO>
+             <p desc="partition">-1111</p>
+           <tmax >-1111</tmax>
+        </AUTO_MUTUAL_INFO>
+        
+         <INCR_EN>
+             <m desc="enbedding dimension">2</m>
+             <tau desc= "Time Delay positive integer">1</tau>
+             <r desc="Quantifying resolution">4</r>
+             <logx desc="Logarithm base a positive integer  0 for natural number">2</logx>
+         </INCR_EN>
+
+       <OLOFSEN_CPEI>
+           <epz >2</epz>
+         </OLOFSEN_CPEI>
+
+
+      <ORDINAL_EN>
+          <order>2</order>
+          <tau>2</tau>
+          <scale>2</scale>
+      </ORDINAL_EN>
+
+       <KALAUZI_EDD>
+          <order>5</order>
+           <windowS>3</windowS>
+      </KALAUZI_EDD>
+        
+
+       <PJSC>
+          <m>-111</m>
+           <tau>-111</tau>
+       </PJSC>
+
+      <SHANNON_EXTROPY>
+          <m>4</m>
+           <numInt>2</numInt>
+      </SHANNON_EXTROPY>
+
+      <ATTENTION_EN>
+          <logX>-111</logX>
+          
+      </ATTENTION_EN>
+
+       <MULTISCALE_FD>
+           <window>5</window>
+           <scale>5</scale>
+          
+       </MULTISCALE_FD>
+
+       <MULTISCALE_PE>
+           <k>2</k>
+           <scale>2</scale>
+          
+      </MULTISCALE_PE>
+        
+
+        <NLDWAN_FD>
+           <wl desc="Moving Window Length">5</wl>
+           <ws desc="Moving Window Steps">3</ws>
+          
+        </NLDWAN_FD>
+
+
+        <NLDIAN_FD>
+           <wl desc="Moving Window Length">5</wl>
+           <ws desc="Moving Window Steps">3</ws>
+          
+      </NLDIAN_FD>
+         
+        
+        
+       
+     
+        
+    </dbFileParam>
+       
+    
+</AllParameters>

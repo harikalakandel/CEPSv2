@@ -1,0 +1,995 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>FMFDFA</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-01-21"><meta name="DC.source" content="FMFDFA.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Input parameters</a></li><li><a href="#4">Other parameters</a></li><li><a href="#5">Preliminary operations</a></li><li><a href="#6">Fq calculation</a></li><li><a href="#8">Variance of residuals computation</a></li><li><a href="#10">Variance of residuals for linear regression</a></li><li><a href="#11">Variance of residuals for quadratic regression</a></li><li><a href="#13">DFA calculation for linear regression</a></li><li><a href="#14">DFA calculation for quadratic regression</a></li><li><a href="#17">Local Functions</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [bs, Fq1, Fq2] = FMFDFA(signal, q, MinBox, BoxSizeDensity, sliding, LogScaleBoxSize)
+</pre><pre class="codeinput"><span class="comment">%FMFDFA Fast Multifractal DFA of first- and second-order.</span>
+<span class="comment">%</span>
+<span class="comment">% Copyright (C) 2019 Andrea Faini and Paolo Castiglioni</span>
+<span class="comment">%</span>
+<span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+<span class="comment">% it under the terms of the GNU General Public License as published by</span>
+<span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="comment">% (at your option) any later version.</span>
+<span class="comment">%</span>
+<span class="comment">% This program is distributed in the hope that it will be useful,</span>
+<span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="comment">% GNU General Public License for more details.</span>
+<span class="comment">%</span>
+<span class="comment">% You should have received a copy of the GNU General Public License</span>
+<span class="comment">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="comment">%</span>
+<span class="comment">% Authors: Andrea Faini and Paolo Castiglioni</span>
+<span class="comment">%</span>
+<span class="comment">% This method is described in:</span>
+<span class="comment">% Castiglioni P., Faini A. (2019). "A Fast DFA algorithm for multifractal</span>
+<span class="comment">% multiscale analysis of physiological time series", Frontiers in Physiology,</span>
+<span class="comment">% Specialty Section: Computational Physiology and Medicine</span>
+<span class="comment">%</span>
+<span class="comment">% Please cite the above publication when referencing this material.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(signal) returns the BoxSize in log10 scale and the</span>
+<span class="comment">% traditional non overlapped first-order DFA in log10 scale for a time</span>
+<span class="comment">% series of N samples.</span>
+<span class="comment">%</span>
+<span class="comment">% This DFA algorithm is sufficiently fast to evaluate the multifractal DFA</span>
+<span class="comment">% with maximally overlapped blocks even on long time series, as usually</span>
+<span class="comment">% recorded in physiological or clinical settings.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(signal, q) performs the first order DFA for the scale</span>
+<span class="comment">% indicates in q (e.g. 0, -5:1:5, [-5, 2, 5]). If q is empty, it defaults</span>
+<span class="comment">% to 2.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(signal, q, MinBox) the first data block of box size</span>
+<span class="comment">% starts from MinBox. If MinBox is empty, it defaults to 6.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(signal, q, MinBox, BoxSizeDensity) set the density of</span>
+<span class="comment">% evenly space data block. If BoxSizeDensity is empty, it defaults to 4.</span>
+<span class="comment">%</span>
+<span class="comment">% By default, the Box Size calculation is performed in log2 scale, in this</span>
+<span class="comment">% case the BoxSizeDensity points out how many blocks are present in each</span>
+<span class="comment">% doubling of box size.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(signal, q, MinBox, BoxSizeDensity, sliding) performs</span>
+<span class="comment">% the first-order DFA calculation for 'sliding' overlapped samples between</span>
+<span class="comment">% consecutive blocks. If sliding is 0, the calculation is performed without</span>
+<span class="comment">% overlapping, if it is 1, the overlapping is maximum. See 'L' parameter in</span>
+<span class="comment">% eq.3 in "Fast Fq(n) calculation" section. If sliding is empty, it</span>
+<span class="comment">% defaults to 0.</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1] = FMFDFA(..., LogScaleBoxSize)</span>
+<span class="comment">% if LogScaleBoxSize is 1 the box size is in logscale, otherwise it is in</span>
+<span class="comment">% normal scale.</span>
+<span class="comment">%</span>
+<span class="comment">% If BoxSizeDensity is 1 and the LogScaleBoxSize is not 1, the DFA</span>
+<span class="comment">% evaluation is performed for all blocks (with or without overlapping,</span>
+<span class="comment">% according to 'sliding' parameter).</span>
+<span class="comment">%</span>
+<span class="comment">% [bs, Fq1, Fq2] = FMFDFA(...) also provides the second-order DFA in log10</span>
+<span class="comment">% scale</span>
+<span class="comment">%</span>
+<span class="comment">% Copyright (C) 2019 Andrea Faini and Paolo Castiglioni</span>
+</pre><h2 id="3">Input parameters</h2><pre class="codeinput"><span class="keyword">if</span> nargin &lt; 1 || isempty(signal)
+    error(<span class="string">'Need nonempty signal'</span>)
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &lt; 2 || isempty(q)
+    q = 2;
+    warning(<span class="string">'q set to 2'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &lt; 3 || isempty(MinBox)
+    MinBox = 6;
+    warning(<span class="string">'MinBox set to 6'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &lt; 4 || isempty(BoxSizeDensity)
+    BoxSizeDensity = 4;
+    warning(<span class="string">'BoxSizeDensity set to 4'</span>);
+<span class="keyword">elseif</span>  BoxSizeDensity &lt; 1
+    BoxSizeDensity = 4;
+    warning(<span class="string">'BoxSizeDensity set to 4'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &lt; 5 || isempty(sliding)
+    sliding = 0;
+    warning(<span class="string">'sliding set to 0: no overlapping'</span>);
+<span class="keyword">elseif</span>  sliding &lt; 0
+    sliding = 0;
+    warning(<span class="string">'sliding set to 0: no overlapping'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &lt; 6 || isempty(LogScaleBoxSize)
+    LogScaleBoxSize = 1;
+    warning(<span class="string">'LogScaleBoxSize set to 1'</span>);
+<span class="keyword">end</span>
+</pre><h2 id="4">Other parameters</h2><pre class="codeinput"><span class="comment">% Length of block to reduce the round-off error (details are reported in</span>
+<span class="comment">% "Calculation precision" section)</span>
+block = 128;
+
+<span class="comment">% DFA1 threshold (eq.19a)</span>
+th1fx = @(n) max(n/10^8, 10^-3);
+
+<span class="comment">% DFA2 threshold (eq.19b)</span>
+th2fx = @(n) max(n/10^4, 10^-2);
+
+<span class="comment">% EPS discard variance of residuals lower than an EPS (details are reported in</span>
+<span class="comment">% "Calculation precision" section)</span>
+eps = 10^-4;
+
+<span class="comment">% Perform DFA2 ?</span>
+<span class="keyword">if</span> nargout &gt; 2
+    quadRreg = 1; <span class="comment">% yes</span>
+<span class="keyword">else</span>
+    quadRreg = 0; <span class="comment">% no</span>
+<span class="keyword">end</span>
+</pre><h2 id="5">Preliminary operations</h2><pre class="codeinput"><span class="comment">% Anonymous functions for eqs.12</span>
+sumPow1 = @(n) n*(n+1)/2;
+sumPow2 = @(n) n^3/3 + n^2/2 + n/6;
+sumPow3 = @(n) n^4/4 + n^3/2 + n^2/4;
+sumPow4 = @(n) n^5/5 + n^4/2 + n^3/3 - n/30;
+
+<span class="comment">% Anonymous functions for eqs.8b,d</span>
+fi = @(z) z; <span class="comment">% Identify function</span>
+fx2y = @(z) z(1,:).^2 .* z(2,:); <span class="comment">% x^2y function</span>
+
+<span class="comment">% Column Major</span>
+<span class="keyword">if</span> size(signal,2) == 1
+    signal = transpose(signal);
+<span class="keyword">end</span>
+
+<span class="comment">% This scale factor is used to evenly space the ouput on a log scale</span>
+LogScaleFactor = 2 ^ (1 / BoxSizeDensity);
+
+<span class="comment">% Length of signal</span>
+N = length(signal);
+x = 1:N;
+
+<span class="comment">% Cumulative sum of normalized series (eq.1-2)</span>
+y = cumsum(zscore(signal));
+<span class="comment">% Standard deviation of orignal series to adjust the Fq (details are</span>
+<span class="comment">% reported in "Fast Fq(n) calculation" section)</span>
+sh = log10(std(signal));
+
+<span class="comment">% Matrices of sum of products (see eqs.15,17-18)</span>
+vSy = CumSumBlock(block,fi,y); <span class="comment">% eq.8b</span>
+vSxy = CumSumBlock(block,@prod,x,y); <span class="comment">% eq.8c</span>
+vSy2 = CumSumBlock(block,@prod,y,y); <span class="comment">% term in eqs.16a-b</span>
+<span class="comment">% Only for quadratic regression</span>
+<span class="keyword">if</span> quadRreg == 1
+    vSx2y = CumSumBlock(block,fx2y,x,y); <span class="comment">% eq.8d</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Set the biggest window to 1/4 the data length, this can be adjusted slightly</span>
+MaxBox = fix(0.25 * N);
+
+<span class="comment">% Cumputation of threshold 1 and 2</span>
+th1 = th1fx(N);
+th2 = th2fx(N);
+</pre><h2 id="6">Fq calculation</h2><p>Now find the best fit lines and find fluctuation about the line loop for each box size from MinBox to MaxBox</p><pre class="codeinput">TempBoxSize = MinBox;
+BoxSize = MinBox;
+
+bs = [];
+Fq1 = [];
+Fq2 = [];
+
+<span class="keyword">while</span> BoxSize &lt;= MaxBox
+</pre><pre class="codeinput">    <span class="comment">% Overlapping ?</span>
+    <span class="keyword">if</span> sliding == 0
+        Shift = BoxSize; <span class="comment">% No overlapping</span>
+    <span class="keyword">else</span>
+        Shift = sliding; <span class="comment">% Overlapping with shift interval</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% M blocks</span>
+    M = fix(1 + (N - BoxSize) / Shift); <span class="comment">% eq.3</span>
+
+    <span class="comment">% Preallocation space for the variance of residuals array</span>
+    Sigma2vreg1 = zeros(1, M); <span class="comment">% Linear regression</span>
+    <span class="comment">% Only for quadratic regression</span>
+    <span class="keyword">if</span> quadRreg == 1
+        Sigma2vreg2 = zeros(1, M); <span class="comment">% Quadratic regression</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Indices for variance of residuals array</span>
+    nS1=1;
+    nS2=1;
+
+    <span class="comment">% Sums of power of BoxSize consecutive integer</span>
+    SX = sumPow1(BoxSize); <span class="comment">% eq.12a</span>
+    SX2 = sumPow2(BoxSize); <span class="comment">% eq.12b</span>
+    <span class="comment">% Only for quadratic regression</span>
+    <span class="keyword">if</span> quadRreg == 1
+        SX3 = sumPow3(BoxSize); <span class="comment">% eq.12c</span>
+        SX4 = sumPow4(BoxSize); <span class="comment">% eq.12d</span>
+    <span class="keyword">end</span>
+</pre><h2 id="8">Variance of residuals computation</h2><pre class="codeinput">    <span class="keyword">for</span> ii = 1:M
+</pre><pre class="codeinput">        <span class="comment">% Find the indices (P1 and P2) for the eq.18</span>
+        P1 = 1 + (ii - 1) * Shift;
+        P2 = P1 + BoxSize;
+
+        p1 = (mod(P1,block)&gt;=0)*(P1-1) + 1;
+        a = ceil(P1/block);
+        b = floor((P2-1)/block);
+        <span class="keyword">if</span> a&lt;=b
+            ps = a * block : block : b * block;
+        <span class="keyword">else</span>
+            ps = 1;
+        <span class="keyword">end</span>
+</pre><h2 id="10">Variance of residuals for linear regression</h2><pre class="codeinput">        SY = -vSy(p1) + vSy(P2) + sum(vSy(ps)); <span class="comment">% eq.8b</span>
+        SXY = -vSxy(p1) + vSxy(P2) + sum(vSxy(ps)) - (P1-1) * SY; <span class="comment">% eq.8c</span>
+        SY2 = -vSy2(p1) + vSy2(P2) + sum(vSy2(ps));<span class="comment">% term in eqs.16a-b</span>
+
+        <span class="comment">% Coefficients of eq.6a</span>
+        Areg1 = (BoxSize * SXY - SX * SY) / (BoxSize * SX2 - SX ^ 2);
+        Breg1 = (SY - Areg1 * SX) / BoxSize;
+
+        <span class="comment">% Variance of residuals for the current box (eq.16a)</span>
+        Sigma2reg1 = SY2 - 2 * Areg1 * SXY - 2 * Breg1 * SY + (Areg1 ^ 2) * SX2 + 2 * Areg1 * Breg1 * SX + (Breg1 ^ 2) * BoxSize;
+
+        <span class="comment">% If the variance of residuals is lower than the threshold</span>
+        <span class="comment">% it is recalculated directly (details are reported in "Calculation</span>
+        <span class="comment">% precision" section)</span>
+        <span class="keyword">if</span> Sigma2reg1 &lt;= th1
+
+            [Areg1,  Breg1] = CoeffReg(1:BoxSize,y(P1:P2-1),1);
+
+            Sigma2reg1 = 0;
+            <span class="keyword">for</span> iii = 1 : BoxSize
+                Sigma2reg1 = Sigma2reg1 + (y(P1 + iii -1) - Areg1 * iii - Breg1)^2; <span class="comment">% eq.16a</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% If the variance of residuals is lower than EPS threshold</span>
+        <span class="comment">% it is discared (details are reported in "Calculation</span>
+        <span class="comment">% precision" section)</span>
+        <span class="keyword">if</span> Sigma2reg1 &gt; eps
+            Sigma2reg1 = Sigma2reg1 / BoxSize;
+            Sigma2vreg1(nS1) = Sigma2reg1;
+            nS1=nS1+1;
+        <span class="keyword">end</span>
+</pre><h2 id="11">Variance of residuals for quadratic regression</h2><pre class="codeinput">        <span class="keyword">if</span> quadRreg == 1
+
+            <span class="comment">% eq.10d</span>
+            SX2Y = (-vSx2y(p1) + vSx2y(P2) + sum(vSx2y(ps))) - 2 * (P1 - 1) * (-vSxy(p1) + vSxy(P2) + sum(vSxy(ps))) + (P1-1)^2 * SY;
+
+            <span class="comment">% Denominator for eqs.9a-b</span>
+            D = ((BoxSize * SX2 - SX ^ 2) * (BoxSize * SX4 - SX2 ^ 2) - (BoxSize * SX3 - SX * SX2) ^ 2);
+
+
+            <span class="comment">% Coefficients of eq.6b</span>
+            <span class="keyword">if</span>  D &gt; 0
+
+                Breg2 = ((BoxSize * SXY - SX * SY) * (BoxSize * SX4 - SX2 ^2) - (BoxSize * SX2Y - SX2 * SY) * (BoxSize * SX3 - SX * SX2)) / <span class="keyword">...</span>
+                    D;
+                Areg2 = ((BoxSize * SX2Y - SX2 * SY) * (BoxSize * SX2 - SX ^2) - (BoxSize * SXY - SX * SY) * (BoxSize * SX3 - SX * SX2)) / <span class="keyword">...</span>
+                    D;
+                Creg2 = (SY - Breg2 * SX - Areg2 * SX2) / BoxSize;
+
+                <span class="comment">% Variance of residuals for the current box (eq.16b)</span>
+                Sigma2reg2 = SY2 + (Areg2 ^ 2) * SX4 + (Breg2 ^ 2) * SX2 + (Creg2 ^ 2) * BoxSize <span class="keyword">...</span>
+                    - 2 * Areg2 * SX2Y - 2 * Breg2 * SXY - 2 * Creg2 * SY <span class="keyword">...</span>
+                    + 2 * Areg2 * Breg2 * SX3 + 2 * Areg2 * Creg2 * SX2 + 2 * Breg2 *  Creg2 * SX;
+            <span class="keyword">else</span>
+                Sigma2reg2=0;
+            <span class="keyword">end</span>
+
+            <span class="comment">% If the variance of residuals is lower than the threshold</span>
+            <span class="comment">% it is recalculated directly (details are reported in "Calculation</span>
+            <span class="comment">% precision" section)</span>
+            <span class="keyword">if</span> Sigma2reg2 &lt;= th2
+
+                [Areg2, Breg2, Creg2] = CoeffReg(1:BoxSize,y(P1:P2-1),2);
+
+                Sigma2reg2 = 0;
+                <span class="keyword">for</span> iii = 1 : BoxSize
+                    Sigma2reg2 = Sigma2reg2 + (y(P1 + iii - 1) - Areg2 * iii.^2 - Breg2 * iii - Creg2)^2; <span class="comment">% eq.16b</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+            <span class="comment">% If the variance of residuals is lower than EPS threshold</span>
+            <span class="comment">% it is discared (details are reported in "Calculation</span>
+            <span class="comment">% precision" section</span>
+            <span class="keyword">if</span> Sigma2reg2 &gt; eps
+                Sigma2reg2 = Sigma2reg2 / BoxSize;
+                Sigma2vreg2(nS2) = Sigma2reg2;
+                nS2=nS2+1;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><pre class="codeinput">    <span class="keyword">end</span>
+</pre><h2 id="13">DFA calculation for linear regression</h2><pre class="codeinput">    Fluctuation1 = zeros(1,length(q));
+
+    <span class="keyword">for</span> iq = 1:length(q)
+
+        Q = q(iq);
+        Sigma2vreg1(nS1:end) = [];
+        L = length(Sigma2vreg1);
+        <span class="keyword">if</span> Q == 0
+            Fluctuation1(iq) = sum(log(Sigma2vreg1));
+            Fluctuation1(iq) = exp(Fluctuation1(iq) / (2 * L));
+        <span class="keyword">else</span>
+            Fluctuation1(iq) = sum(Sigma2vreg1 .^ (Q / 2));
+            Fluctuation1(iq) = (Fluctuation1(iq) / L) ^ (1 / Q);
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+    <span class="comment">% Output for DFA1</span>
+    bs = [bs, log10(BoxSize)];
+    Fq1 = [Fq1, log10(Fluctuation1') + sh]; <span class="comment">% sh, see details are reported</span>
+    <span class="comment">% in "Fast Fq(n) calculation" section</span>
+</pre><h2 id="14">DFA calculation for quadratic regression</h2><pre class="codeinput">    <span class="keyword">if</span> quadRreg == 1
+
+        Fluctuation2 = zeros(1,length(q));
+
+        <span class="keyword">for</span> iq = 1:length(q)
+
+            Q = q(iq);
+
+           Sigma2vreg2(nS2:end) = [];
+            L = length(Sigma2vreg2);
+            <span class="keyword">if</span> Q == 0
+                Fluctuation2(iq) = sum(log(Sigma2vreg2));
+                Fluctuation2(iq) = exp(Fluctuation2(iq) / (2 * L));
+            <span class="keyword">else</span>
+                Fluctuation2(iq) = sum(Sigma2vreg2 .^ (Q / 2));
+                Fluctuation2(iq) = (Fluctuation2(iq) / L) ^ (1 / Q);
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+        <span class="comment">% Output for DF2</span>
+        Fq2 = [Fq2, log10(Fluctuation2') + sh]; <span class="comment">% sh, details are reported</span>
+        <span class="comment">% in "Fast Fq(n) calculation" section</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Update the box size</span>
+    <span class="keyword">if</span> LogScaleBoxSize==1
+        TempBoxSize = TempBoxSize * LogScaleFactor;
+        <span class="keyword">while</span> TempBoxSize &lt; (BoxSize + 1)
+            TempBoxSize = TempBoxSize * LogScaleFactor;
+        <span class="keyword">end</span>
+        BoxSize = round(TempBoxSize);
+    <span class="keyword">else</span>
+        BoxSize = BoxSize + BoxSizeDensity;
+    <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><h2 id="17">Local Functions</h2><pre class="codeinput"><span class="keyword">function</span> [A, B, C] = CoeffReg(x,y,ord)
+
+<span class="keyword">if</span>  ord &lt; 0 || ord &gt; 2
+    error(<span class="string">'Set ord 1 or 2'</span>);
+<span class="keyword">end</span>
+
+N = length(x);
+mx = mean(x);
+my = mean(y);
+
+Sxx = 0;
+<span class="keyword">for</span> i = 1:N
+    Sxx = Sxx + (x(i) - mx)^2;
+<span class="keyword">end</span>
+Sxx = Sxx/N;
+
+Sxy = 0;
+<span class="keyword">for</span> i = 1:N
+    Sxy = Sxy + (x(i) - mx) * (y(i) - my);
+<span class="keyword">end</span>
+Sxy = Sxy/N;
+
+<span class="comment">% Linear regression</span>
+<span class="keyword">if</span> ord == 1
+    A = Sxy/Sxx;
+    B = my - A * mx;
+    C = NaN;
+    <span class="keyword">return</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Quadratic regression</span>
+mx2 = mean(x.^2);
+
+Sxx2 = 0;
+<span class="keyword">for</span> i = 1:N
+    Sxx2 = Sxx2 + (x(i) - mx2) * (x(i)^2 - mx2);
+<span class="keyword">end</span>
+Sxx2 = Sxx2/N;
+
+Sx2x2 = 0;
+<span class="keyword">for</span> i = 1:N
+    Sx2x2 = Sx2x2 + (x(i)^2 - mx2)^2;
+<span class="keyword">end</span>
+Sx2x2 = Sx2x2/N;
+
+Sx2y = 0;
+<span class="keyword">for</span> i = 1:N
+    Sx2y = Sx2y + (x(i)^2 - mx2) * (y(i) - my); <span class="comment">% o alternativa?</span>
+<span class="keyword">end</span>
+Sx2y = Sx2y/N;
+
+Den = Sxx * Sx2x2 - (Sxx2)^2;
+
+B = (Sxy * Sx2x2 - Sx2y * Sxx2)/Den;
+
+A = (Sx2y * Sxx - Sxy * Sxx2)/Den;
+
+C = my - B * mx - A * mx2;
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> M = CumSumBlock(block, fx, varargin)
+
+mat = zeros(length(varargin),numel(varargin{1})+1);
+
+<span class="comment">% The first point is 0</span>
+mat(1,:) = [0, varargin{1}];
+
+<span class="keyword">for</span> v = 2:length(varargin)
+    mat(v,:) = [0, varargin{v}];
+<span class="keyword">end</span>
+
+N = size(mat,2);
+
+<span class="comment">% Number fo blocks</span>
+m = ceil(N/block);
+
+<span class="comment">% Preallocation space matrix n x m</span>
+M = zeros(N,1);
+
+<span class="comment">% Fill the matrix</span>
+<span class="keyword">for</span> i = 1:m
+    <span class="keyword">if</span> (i*block)&gt;N
+        d = i*block - N;
+    <span class="keyword">else</span>
+        d = 0;
+    <span class="keyword">end</span>
+    l = (i-1)*block+1:(i*block) - d;
+    M(l) = cumsum(fx(mat(:,l)));
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [bs, Fq1, Fq2] = FMFDFA(signal, q, MinBox, BoxSizeDensity, sliding, LogScaleBoxSize)
+%FMFDFA Fast Multifractal DFA of first- and second-order.
+%
+% Copyright (C) 2019 Andrea Faini and Paolo Castiglioni
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%
+% Authors: Andrea Faini and Paolo Castiglioni
+%
+% This method is described in:
+% Castiglioni P., Faini A. (2019). "A Fast DFA algorithm for multifractal 
+% multiscale analysis of physiological time series", Frontiers in Physiology, 
+% Specialty Section: Computational Physiology and Medicine
+%
+% Please cite the above publication when referencing this material.
+%
+% [bs, Fq1] = FMFDFA(signal) returns the BoxSize in log10 scale and the 
+% traditional non overlapped first-order DFA in log10 scale for a time 
+% series of N samples.
+%
+% This DFA algorithm is sufficiently fast to evaluate the multifractal DFA 
+% with maximally overlapped blocks even on long time series, as usually 
+% recorded in physiological or clinical settings.
+%
+% [bs, Fq1] = FMFDFA(signal, q) performs the first order DFA for the scale 
+% indicates in q (e.g. 0, -5:1:5, [-5, 2, 5]). If q is empty, it defaults 
+% to 2.
+%
+% [bs, Fq1] = FMFDFA(signal, q, MinBox) the first data block of box size 
+% starts from MinBox. If MinBox is empty, it defaults to 6.
+%
+% [bs, Fq1] = FMFDFA(signal, q, MinBox, BoxSizeDensity) set the density of
+% evenly space data block. If BoxSizeDensity is empty, it defaults to 4.
+%
+% By default, the Box Size calculation is performed in log2 scale, in this 
+% case the BoxSizeDensity points out how many blocks are present in each 
+% doubling of box size.
+%
+% [bs, Fq1] = FMFDFA(signal, q, MinBox, BoxSizeDensity, sliding) performs
+% the first-order DFA calculation for 'sliding' overlapped samples between 
+% consecutive blocks. If sliding is 0, the calculation is performed without 
+% overlapping, if it is 1, the overlapping is maximum. See 'L' parameter in 
+% eq.3 in "Fast Fq(n) calculation" section. If sliding is empty, it 
+% defaults to 0.
+%
+% [bs, Fq1] = FMFDFA(..., LogScaleBoxSize)
+% if LogScaleBoxSize is 1 the box size is in logscale, otherwise it is in 
+% normal scale.
+%
+% If BoxSizeDensity is 1 and the LogScaleBoxSize is not 1, the DFA 
+% evaluation is performed for all blocks (with or without overlapping,
+% according to 'sliding' parameter).
+%
+% [bs, Fq1, Fq2] = FMFDFA(...) also provides the second-order DFA in log10 
+% scale
+%
+% Copyright (C) 2019 Andrea Faini and Paolo Castiglioni
+
+%% Input parameters
+
+if nargin < 1 || isempty(signal)
+    error('Need nonempty signal')
+end
+
+if nargin < 2 || isempty(q)
+    q = 2;
+    warning('q set to 2');
+end
+
+if nargin < 3 || isempty(MinBox)
+    MinBox = 6;
+    warning('MinBox set to 6');
+end
+
+if nargin < 4 || isempty(BoxSizeDensity)
+    BoxSizeDensity = 4;
+    warning('BoxSizeDensity set to 4');
+elseif  BoxSizeDensity < 1
+    BoxSizeDensity = 4;
+    warning('BoxSizeDensity set to 4');
+end
+
+if nargin < 5 || isempty(sliding)
+    sliding = 0;
+    warning('sliding set to 0: no overlapping');
+elseif  sliding < 0
+    sliding = 0;
+    warning('sliding set to 0: no overlapping');
+end
+
+if nargin < 6 || isempty(LogScaleBoxSize)
+    LogScaleBoxSize = 1;
+    warning('LogScaleBoxSize set to 1');
+end
+
+%% Other parameters
+
+% Length of block to reduce the round-off error (details are reported in
+% "Calculation precision" section)
+block = 128;
+
+% DFA1 threshold (eq.19a)
+th1fx = @(n) max(n/10^8, 10^-3);
+
+% DFA2 threshold (eq.19b)
+th2fx = @(n) max(n/10^4, 10^-2);
+
+% EPS discard variance of residuals lower than an EPS (details are reported in
+% "Calculation precision" section)
+eps = 10^-4;
+
+% Perform DFA2 ?
+if nargout > 2
+    quadRreg = 1; % yes
+else
+    quadRreg = 0; % no
+end
+
+%%  Preliminary operations
+
+% Anonymous functions for eqs.12
+sumPow1 = @(n) n*(n+1)/2;
+sumPow2 = @(n) n^3/3 + n^2/2 + n/6;
+sumPow3 = @(n) n^4/4 + n^3/2 + n^2/4;
+sumPow4 = @(n) n^5/5 + n^4/2 + n^3/3 - n/30;
+
+% Anonymous functions for eqs.8b,d
+fi = @(z) z; % Identify function
+fx2y = @(z) z(1,:).^2 .* z(2,:); % x^2y function
+
+% Column Major
+if size(signal,2) == 1
+    signal = transpose(signal);
+end
+
+% This scale factor is used to evenly space the ouput on a log scale
+LogScaleFactor = 2 ^ (1 / BoxSizeDensity);
+
+% Length of signal
+N = length(signal);
+x = 1:N;
+
+% Cumulative sum of normalized series (eq.1-2)
+y = cumsum(zscore(signal));
+% Standard deviation of orignal series to adjust the Fq (details are
+% reported in "Fast Fq(n) calculation" section)
+sh = log10(std(signal));
+
+% Matrices of sum of products (see eqs.15,17-18)
+vSy = CumSumBlock(block,fi,y); % eq.8b
+vSxy = CumSumBlock(block,@prod,x,y); % eq.8c
+vSy2 = CumSumBlock(block,@prod,y,y); % term in eqs.16a-b
+% Only for quadratic regression
+if quadRreg == 1
+    vSx2y = CumSumBlock(block,fx2y,x,y); % eq.8d
+end
+
+% Set the biggest window to 1/4 the data length, this can be adjusted slightly
+MaxBox = fix(0.25 * N);
+
+% Cumputation of threshold 1 and 2
+th1 = th1fx(N);
+th2 = th2fx(N);
+
+%% Fq calculation
+% Now find the best fit lines and find fluctuation about the
+% line loop for each box size from MinBox to MaxBox
+
+TempBoxSize = MinBox;
+BoxSize = MinBox;
+
+bs = [];
+Fq1 = [];
+Fq2 = [];
+
+while BoxSize <= MaxBox
+    
+    % Overlapping ?
+    if sliding == 0
+        Shift = BoxSize; % No overlapping
+    else
+        Shift = sliding; % Overlapping with shift interval
+    end
+    
+    % M blocks
+    M = fix(1 + (N - BoxSize) / Shift); % eq.3
+    
+    % Preallocation space for the variance of residuals array
+    Sigma2vreg1 = zeros(1, M); % Linear regression
+    % Only for quadratic regression
+    if quadRreg == 1
+        Sigma2vreg2 = zeros(1, M); % Quadratic regression
+    end
+    
+    % Indices for variance of residuals array
+    nS1=1;
+    nS2=1;
+    
+    % Sums of power of BoxSize consecutive integer
+    SX = sumPow1(BoxSize); % eq.12a
+    SX2 = sumPow2(BoxSize); % eq.12b
+    % Only for quadratic regression
+    if quadRreg == 1
+        SX3 = sumPow3(BoxSize); % eq.12c
+        SX4 = sumPow4(BoxSize); % eq.12d
+    end
+    
+    %% Variance of residuals computation
+    
+    for ii = 1:M
+        
+        % Find the indices (P1 and P2) for the eq.18
+        P1 = 1 + (ii - 1) * Shift;
+        P2 = P1 + BoxSize;
+        
+        p1 = (mod(P1,block)>=0)*(P1-1) + 1;
+        a = ceil(P1/block);
+        b = floor((P2-1)/block);
+        if a<=b
+            ps = a * block : block : b * block;
+        else
+            ps = 1;
+        end
+        
+        %% Variance of residuals for linear regression
+        
+        SY = -vSy(p1) + vSy(P2) + sum(vSy(ps)); % eq.8b
+        SXY = -vSxy(p1) + vSxy(P2) + sum(vSxy(ps)) - (P1-1) * SY; % eq.8c
+        SY2 = -vSy2(p1) + vSy2(P2) + sum(vSy2(ps));% term in eqs.16a-b
+        
+        % Coefficients of eq.6a
+        Areg1 = (BoxSize * SXY - SX * SY) / (BoxSize * SX2 - SX ^ 2);
+        Breg1 = (SY - Areg1 * SX) / BoxSize;
+        
+        % Variance of residuals for the current box (eq.16a)
+        Sigma2reg1 = SY2 - 2 * Areg1 * SXY - 2 * Breg1 * SY + (Areg1 ^ 2) * SX2 + 2 * Areg1 * Breg1 * SX + (Breg1 ^ 2) * BoxSize;
+        
+        % If the variance of residuals is lower than the threshold
+        % it is recalculated directly (details are reported in "Calculation
+        % precision" section)
+        if Sigma2reg1 <= th1
+            
+            [Areg1,  Breg1] = CoeffReg(1:BoxSize,y(P1:P2-1),1);
+            
+            Sigma2reg1 = 0;
+            for iii = 1 : BoxSize
+                Sigma2reg1 = Sigma2reg1 + (y(P1 + iii -1) - Areg1 * iii - Breg1)^2; % eq.16a
+            end
+        end
+        
+        % If the variance of residuals is lower than EPS threshold
+        % it is discared (details are reported in "Calculation
+        % precision" section)
+        if Sigma2reg1 > eps
+            Sigma2reg1 = Sigma2reg1 / BoxSize;
+            Sigma2vreg1(nS1) = Sigma2reg1;
+            nS1=nS1+1;
+        end
+        
+        %% Variance of residuals for quadratic regression
+        
+        if quadRreg == 1
+            
+            % eq.10d
+            SX2Y = (-vSx2y(p1) + vSx2y(P2) + sum(vSx2y(ps))) - 2 * (P1 - 1) * (-vSxy(p1) + vSxy(P2) + sum(vSxy(ps))) + (P1-1)^2 * SY;
+            
+            % Denominator for eqs.9a-b
+            D = ((BoxSize * SX2 - SX ^ 2) * (BoxSize * SX4 - SX2 ^ 2) - (BoxSize * SX3 - SX * SX2) ^ 2);
+            
+            
+            % Coefficients of eq.6b
+            if  D > 0
+                
+                Breg2 = ((BoxSize * SXY - SX * SY) * (BoxSize * SX4 - SX2 ^2) - (BoxSize * SX2Y - SX2 * SY) * (BoxSize * SX3 - SX * SX2)) / ...
+                    D;
+                Areg2 = ((BoxSize * SX2Y - SX2 * SY) * (BoxSize * SX2 - SX ^2) - (BoxSize * SXY - SX * SY) * (BoxSize * SX3 - SX * SX2)) / ...
+                    D;
+                Creg2 = (SY - Breg2 * SX - Areg2 * SX2) / BoxSize;
+                
+                % Variance of residuals for the current box (eq.16b)
+                Sigma2reg2 = SY2 + (Areg2 ^ 2) * SX4 + (Breg2 ^ 2) * SX2 + (Creg2 ^ 2) * BoxSize ...
+                    - 2 * Areg2 * SX2Y - 2 * Breg2 * SXY - 2 * Creg2 * SY ...
+                    + 2 * Areg2 * Breg2 * SX3 + 2 * Areg2 * Creg2 * SX2 + 2 * Breg2 *  Creg2 * SX;
+            else
+                Sigma2reg2=0;
+            end
+            
+            % If the variance of residuals is lower than the threshold
+            % it is recalculated directly (details are reported in "Calculation
+            % precision" section)
+            if Sigma2reg2 <= th2
+                
+                [Areg2, Breg2, Creg2] = CoeffReg(1:BoxSize,y(P1:P2-1),2);
+                
+                Sigma2reg2 = 0;
+                for iii = 1 : BoxSize
+                    Sigma2reg2 = Sigma2reg2 + (y(P1 + iii - 1) - Areg2 * iii.^2 - Breg2 * iii - Creg2)^2; % eq.16b
+                end
+            end
+            
+            % If the variance of residuals is lower than EPS threshold
+            % it is discared (details are reported in "Calculation
+            % precision" section
+            if Sigma2reg2 > eps
+                Sigma2reg2 = Sigma2reg2 / BoxSize;
+                Sigma2vreg2(nS2) = Sigma2reg2;
+                nS2=nS2+1;
+            end     
+        end     
+    end
+    
+    %%  DFA calculation for linear regression
+    
+    Fluctuation1 = zeros(1,length(q));
+    
+    for iq = 1:length(q)
+        
+        Q = q(iq);       
+        Sigma2vreg1(nS1:end) = [];
+        L = length(Sigma2vreg1);
+        if Q == 0
+            Fluctuation1(iq) = sum(log(Sigma2vreg1));
+            Fluctuation1(iq) = exp(Fluctuation1(iq) / (2 * L));
+        else
+            Fluctuation1(iq) = sum(Sigma2vreg1 .^ (Q / 2));
+            Fluctuation1(iq) = (Fluctuation1(iq) / L) ^ (1 / Q);
+        end
+        
+    end
+    
+    % Output for DFA1
+    bs = [bs, log10(BoxSize)];
+    Fq1 = [Fq1, log10(Fluctuation1') + sh]; % sh, see details are reported 
+    % in "Fast Fq(n) calculation" section
+    
+    %% DFA calculation for quadratic regression
+    
+    if quadRreg == 1
+        
+        Fluctuation2 = zeros(1,length(q));
+        
+        for iq = 1:length(q)
+            
+            Q = q(iq);
+            
+           Sigma2vreg2(nS2:end) = [];
+            L = length(Sigma2vreg2);
+            if Q == 0
+                Fluctuation2(iq) = sum(log(Sigma2vreg2));
+                Fluctuation2(iq) = exp(Fluctuation2(iq) / (2 * L));
+            else
+                Fluctuation2(iq) = sum(Sigma2vreg2 .^ (Q / 2));
+                Fluctuation2(iq) = (Fluctuation2(iq) / L) ^ (1 / Q);
+            end
+            
+        end
+        
+        % Output for DF2
+        Fq2 = [Fq2, log10(Fluctuation2') + sh]; % sh, details are reported
+        % in "Fast Fq(n) calculation" section
+    end
+    
+    % Update the box size
+    if LogScaleBoxSize==1
+        TempBoxSize = TempBoxSize * LogScaleFactor;
+        while TempBoxSize < (BoxSize + 1)
+            TempBoxSize = TempBoxSize * LogScaleFactor;
+        end
+        BoxSize = round(TempBoxSize);
+    else
+        BoxSize = BoxSize + BoxSizeDensity;
+    end
+end
+
+end
+
+%% Local Functions
+
+function [A, B, C] = CoeffReg(x,y,ord)
+
+if  ord < 0 || ord > 2
+    error('Set ord 1 or 2');
+end
+
+N = length(x);
+mx = mean(x);
+my = mean(y);
+
+Sxx = 0;
+for i = 1:N
+    Sxx = Sxx + (x(i) - mx)^2;
+end
+Sxx = Sxx/N;
+
+Sxy = 0;
+for i = 1:N
+    Sxy = Sxy + (x(i) - mx) * (y(i) - my);
+end
+Sxy = Sxy/N;
+
+% Linear regression
+if ord == 1
+    A = Sxy/Sxx;
+    B = my - A * mx;
+    C = NaN;
+    return
+end
+
+% Quadratic regression
+mx2 = mean(x.^2);
+
+Sxx2 = 0;
+for i = 1:N
+    Sxx2 = Sxx2 + (x(i) - mx2) * (x(i)^2 - mx2);
+end
+Sxx2 = Sxx2/N;
+
+Sx2x2 = 0;
+for i = 1:N
+    Sx2x2 = Sx2x2 + (x(i)^2 - mx2)^2;
+end
+Sx2x2 = Sx2x2/N;
+
+Sx2y = 0;
+for i = 1:N
+    Sx2y = Sx2y + (x(i)^2 - mx2) * (y(i) - my); % o alternativa?
+end
+Sx2y = Sx2y/N;
+
+Den = Sxx * Sx2x2 - (Sxx2)^2;
+
+B = (Sxy * Sx2x2 - Sx2y * Sxx2)/Den;
+
+A = (Sx2y * Sxx - Sxy * Sxx2)/Den;
+
+C = my - B * mx - A * mx2;
+end
+
+function M = CumSumBlock(block, fx, varargin)
+
+mat = zeros(length(varargin),numel(varargin{1})+1);
+
+% The first point is 0
+mat(1,:) = [0, varargin{1}];
+
+for v = 2:length(varargin)
+    mat(v,:) = [0, varargin{v}];
+end
+
+N = size(mat,2);
+
+% Number fo blocks
+m = ceil(N/block);
+
+% Preallocation space matrix n x m
+M = zeros(N,1);
+
+% Fill the matrix
+for i = 1:m
+    if (i*block)>N
+        d = i*block - N;
+    else
+        d = 0;
+    end
+    l = (i-1)*block+1:(i*block) - d;
+    M(l) = cumsum(fx(mat(:,l)));
+end
+end
+##### SOURCE END #####
+--></body></html>

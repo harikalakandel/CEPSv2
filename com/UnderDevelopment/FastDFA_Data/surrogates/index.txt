@@ -1,0 +1,88 @@
+This is a collection of matlab functions for generating so-called
+`surrogate time series'.  They are basically realisations of a given
+`original' time series (first input argument) under the assumption of a
+certain null hypothesis, H0.  Traditionally, they are used for testing
+the presence of nonlinearities in time series.  A *very* interesting
+overview of surrogate data generation methods is:
+
+Schreiber, T. and Schmitz, A. (2000), Surrogate Time Series, Physica D,
+142, 346--382.
+
+which can be downloaded from:
+http://www.mpipks-dresden.mpg.de/~schreibe/myrefs/myrefs.html
+
+The basic idea is to compute a test statistic, t, for the original time
+series, X, and on a number of surrogate time series, Xs, yielding t_o
+and {t_s}.  The null hypothesis, H0, is rejected if t_0 is significantly
+different from {t_s}, e.g. using a (left-, right- or two-tailed)
+rank-based test.
+
+These functions are implementations of different surrogate data generation
+methods (described in Schreiber and Schmitz, 2000).
+
+generate_randperm.m
+generate_AR.m
+generate_AAFT.m
+generate_FT.m
+generate_iAAFT.m
+generate_iAAFTn.m
+generate_anneal.m	Example of a simulated annealing approach
+end2end.m		Endpoint matching procedure (alleviates bias in
+			surrogates;  see Schreiber and Schmitz, 2000)
+
+A quick and very sketchy tutorial can be found in quick_tutorial.txt
+
+A number of interesting links wrt signal nonlinearity detection:
+http://www.physik3.gwdg.de/tstool/
+http://www.theochem.uni-frankfurt.de/~hegger/
+http://nis-www.lanl.gov/~jt/Papers/
+http://www.macalester.edu/~kaplan/
+http://www.mpipks-dresden.mpg.de/~tisean/TISEAN_2.1/index.html
+http://134.58.34.50/temu
+
+Maybe the DVV toolbox could be worth looking at in the context of 
+signal nonlinearity testing:
+http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=3264
+
+I have added a number of surrogate data generation methods for other
+applications.  For those interested, I have added the refs to the papers
+where they are described/used.
+
+generate_corr_pair.m
+	Gautama, T. and Van Hulle, M.M. (2003), Surrogate-based Test for
+	Granger Causality, Proceedings IEEE Neural Network for Signal
+	Processing Workshop 2003, Toulouse, France, 799--808.
+	http://134.58.34.50/temu/nnsp03.ps.gz
+These surrogates retain the empirical distribution of the original
+data, and the instantaneous correlation to a given reference data set.
+They can be used for checking if there are relations between data sets
+that cannot be explained from simple correlations.
+
+generate_ciAAFT.m
+	Gautama, T., Mandic, D.P. and Van Hulle, M.M. (2003),
+	Non-parametric Test for Detecting the Complex-Valued Nature
+	of Time Series, Proceedings of Knowledge-Based Intelligent
+	Information and Engineering Systems (KES 2003), Part I,
+	1364--1371.
+	http://134.58.34.50/temu/kes03.ps.gz
+This is a complex-valued extension of the iAAFT method.
+
+generate_stat_boot.m
+	Politis, D.N. and Romano, J.P. (1994), The Stationary Bootstrap,
+	J. Am.	Stat. Assoc., 89 (428), 371--384.
+	Diks, C. and DeGoede, J. (2001), A General Nonparametric Bootstrap
+	Test for Granger Causality, in: "Global Analysis of Dynamical
+	Systems", Broer, H. and Krauskopf, B. and Vegter, G. (eds),
+	pp. 391--403.
+The null hypothesis underlying this type of surrogate is that the original
+time series is stationary.  Basically, it generates a sequence of time
+segments of random length, taken from the original time series.
+
+
+A number of data generation functions:
+generate_ar_signal.m	Generate a linear (AR) signal
+generate_henon.m	Generate a chaotic Henon map
+
+comp_rev.m		Compute the asymmetry due to time reversal
+				(one possible measure for nonlinearity)
+ranktest.m		Rank-testing procedure for statistical testing

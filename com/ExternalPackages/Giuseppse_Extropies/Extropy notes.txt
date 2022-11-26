@@ -1,0 +1,11 @@
+DP 30.05.21:
+
+I have made the necessary changes (line numbers 96 - 106) [as suggested by Giuseppe 12.05.21]. I have added the suggestion from Giuseppe as comments between the lines 96-106.
+
+
+Please find the attached matlab script.
+
+
+Also, ShannonEn required quantiz.m file attached with this email. Please put both of the files in the same location.
+
+[DM renamed as 'ShannonEnEx.m']

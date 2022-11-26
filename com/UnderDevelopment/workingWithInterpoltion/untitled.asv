@@ -1,0 +1,49 @@
+
+data=xlsread('BA_a_25_1_EEG.xlsx');
+currSum=data(1,1);
+for i=2:size(data,1)
+    currSum = currSum+data(i,1);
+    data(i,1)=currSum;
+end
+
+x=data(:,2);
+
+
+
+
+
+desiredFs =  size(data,1)/data(end,1)% 1052*10;  %?????
+figure(1)
+
+subplot(3,1,1)
+[y, Ty] = resample(x,irregTx,desiredFs);
+%[y, Ty] = resample(y,Ty,desiredFs/5);
+plot(irregTx,x,'.-',Ty,y,'-')
+legend('Original','Resampled')
+%ylim([-1.2 1.2])
+
+disp([size(x) size(y)])
+SMOOTHING_FACTOR=100;
+
+desiredFs =  desiredFs*SMOOTHING_FACTOR% 1052*10;  %?????
+subplot(3,1,2)
+
+
+[ySmooth, TySmooth] = resample(x,irregTx,desiredFs);
+[ySmooth, TySmooth] = resample(ySmooth,TySmooth,desiredFs/SMOOTHING_FACTOR);
+plot(irregTx,x,'.-',TySmooth,ySmooth,'-')
+legend('Original','Resampled')
+
+subplot(3,1,3)
+plot(irregTx,x,'.-','color','blue')
+hold on
+plot(Ty,y,'.-',TySmooth,ySmooth,'-')
+legend('Original','Resampled','Smoothed')
+
+disp('Square A')
+error=sum(abs(x-y).^2)
+errorSmooth = sum(abs(x-ySmooth).^2)
+
+%%smoothing
+
+

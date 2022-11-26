@@ -1,0 +1,116 @@
+inline void Fractals::lencalcE(double y[], int numero, double& largo,
+        double& var_dely) {
+    int i;
+    double yant = 0, ymin, ymax, ytm;
+    double& s_dely = largo; // sdely is the sum of the delta y,
+    // sdely is equivalent to the length
+    using namespace std;
+    double *dely = new double[numero - 1];
+
+    ymax = ymin = y[0];
+    for (i = 1; i < numero; i++) {
+        ymax = max(y[i], ymax);
+        ymin = min(y[i], ymin);
+    }
+
+    /* The way to calculate mean dely and var_dely was choosen to avoid
+     * subtractive cancellation and related errors when squaring and adding
+     * small numbetrs
+     */
+
+    double delx2 = sqr(1.0 / double (numero));
+    double dif_maxmin = ymax - ymin;
+    int k = 0;
+    if (ymin != ymax) {
+        s_dely = largo = 0;
+        for (i = 0; i < numero; i++) {
+            if (i > 0) {
+                ytm = (y[i] - ymin) / dif_maxmin;
+                dely[k] = sqrt(sqr(ytm - yant) + delx2);
+                largo += dely[k++];
+                yant = ytm;
+            } else {
+                yant = (y[i] - ymin) / dif_maxmin;
+            }
+        }
+        double media = 0;
+
+        media = Media(dely, k);
+
+        var_dely = 0;
+        for (i = 0; i < k; i++)
+            var_dely += sqr(dely[i] - media);
+        var_dely /= k - 1;
+
+        // The number of segments is
+        // the number of points minus 1
+    } else {
+        largo = 1;
+        var_dely = 0;
+    }
+    delete [] dely;
+    
+} // ***** End of lencalc *****
+
+// ******************* Start of variance *************************************
+// Routine to calculate de ariance of D
+
+inline double Fractals::variance_D(double var_dely, double length, int num) {
+    return (var_dely * (num - 1) / sqr(log(double(2 * (num - 1))) * length));
+}
+
+// *********** End of variance **********************************************
+
+// *********** Start of D **************************************************
+
+// which calculates CS fract dimension from the "contortenes" Q
+
+/* Here "contortedness is used as indicated in:
+
+      @Article{DSuze2010a,
+	author = {G. D{\textquoteright}Suze and C. Sevcik},
+	title = {Scorpion Venom Complexity Fractal Analysis. {I}ts Relevance for Comparing Venoms},
+	journal = {J. Theoret. Biol.},
+	year = {2010},
+	volume = {267},
+	pages = {405--416},
+	note = {doi:10.1016/j.jtbi.2010.09.009},
+      }
+*/
+
+inline double Fractals::D(double largo, int num) {
+    // *** Calculates the Fractal Dimension
+    return 1 + Q(largo, num);
+} // *** End of D
+
+// *********** End of D ******************************************************
+
+
+// ************** Starts Q *************************************************
+
+/* Here "contortedness is used as indicated in:
+
+      @Article{DSuze2010a,
+	author = {G. D{\textquoteright}Suze and C. Sevcik},
+	title = {Scorpion Venom Complexity Fractal Analysis. {I}ts Relevance for Comparing Venoms},
+	journal = {J. Theoret. Biol.},
+	year = {2010},
+	volume = {267},
+	pages = {405--416},
+	note = {doi:10.1016/j.jtbi.2010.09.009},
+      }
+*/
+ 
+inline double Fractals::Q(double largo, int num) {
+    // *** Calculates the Contortedness
+#ifdef ECU6A
+    return (log(largo / 2.0) / log(double (2.0 * (num - 1))));
+#endif
+#ifdef ECU6
+    return log(largo) / log(double (2.0 * (num - 1)));
+#endif
+} 
+
+// ****************** End of Q *****************************************
+
+

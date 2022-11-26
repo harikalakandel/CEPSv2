@@ -1,0 +1,23 @@
+%data=xlsread('BA_a_25_1_EEG.xlsx');
+% dataOrg = data;
+% currSum=data(1,1);
+% for i=2:size(data,1)
+%     currSum = currSum+data(i,1);
+%     data(i,1)=currSum;
+% end
+
+
+plot(data(:,1),data(:,2));
+
+return
+x = sort(unique(randi(50,1,10)));
+y = randi(10,1,length(x));
+xi = linspace(0,max(x),15);
+yi = interp1(x,y,xi,'linear');
+figure(1)
+plot(x,y,'-*b')
+hold on
+plot(xi,yi,'pr')
+hold off
+grid
+legend('Original','Interpolated')

@@ -1,0 +1,1 @@
+kk=py.fractionalDimension.hfd(rand(100,1), 3)

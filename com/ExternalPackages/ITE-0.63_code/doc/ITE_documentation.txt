@@ -1,0 +1,6 @@
+The documentation of a given version is available at 'https://bitbucket.org/szzoli/ite/downloads': Downloads tab: 'ITE-<version>_documentation.pdf'.
+Note: the contents of the .zip and .tar.bz2-ed codes are identical.
+
+
+
+

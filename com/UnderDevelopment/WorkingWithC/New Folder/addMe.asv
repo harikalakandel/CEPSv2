@@ -1,0 +1,24 @@
+#include "mex.h"
+
+
+void mexFunction(int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[]) {
+   
+    double a,b;
+    double *sum;
+
+    if (nrhs!=2)
+    {
+        mexErrMsgIdAndTxt("bitmaker:my_sum","Two inputs required.");
+    }
+    
+    a=mxGetScalar(prhs[0]);
+    b=mxGetScalar(prhs[1]);
+
+    sum=mxGetPr(plhs[]
+}
+
+int addMe(int x,int y)
+{
+    return x+y;
+}
+

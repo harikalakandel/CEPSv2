@@ -1,0 +1,20 @@
+HiguchiFD 
+	max Series 6
+Extended PointCare EPP
+	max Lag		2
+MultiScale LZC
+	Scal 		1,3,5
+
+Sample Entropy
+	Embedding D	2
+	Threshold 		0.2
+	Time Lag 		2
+Approximate Entroy
+	Window Length m  	2
+	Similarity Measure	0.2
+Conditional Entropy
+	Embedding D	3
+	Unifiorm Interval 	2
+Corrected Conditional Entropy
+	Embedding D	3
+	Uniform Interval 	2
