@@ -978,7 +978,7 @@ classdef UTIL_GUI
             selData = UTIL_GUI.getStatisticSelData(app);
 
             app.uiPanelSEntropy1.Visible = selData(STATISTIC_INDEX.SampEn_DS);
-            app.uiPanelSEntropy_RH.Visible = selData(STATISTIC_INDEX.SampEn_Richmond);
+            app.uiPanelSEntropy_RH.Visible = selData(STATISTIC_INDEX.SampEn_Richman);
             %app.uiPanelSEntropy2.Visible = selData(STATISTIC_INDEX.SampEn_DS_2))
             %    app.uiPanelSEntropy3.Visible = selData(STATISTIC_INDEX.RCMDE))
             app.uiPanelRCMDE1.Visible = selData(STATISTIC_INDEX.RCmDE);
