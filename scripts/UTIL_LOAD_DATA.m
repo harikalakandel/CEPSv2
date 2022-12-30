@@ -33,8 +33,14 @@ classdef UTIL_LOAD_DATA
                 elseif strcmp(selExt,'xlsx')
                     data = xlsread(strcat(dbDirectoryPath,'/',fileName));
                 elseif strcmp(selExt,'mat')
+                    
                     dataFile = load(strcat(dbDirectoryPath,'/',fileName));
-                    data = dataFile.data;
+                    try
+                        data = dataFile.data;
+                    catch
+                         fName = fieldnames(dataFile);
+                         data = eval(strcat('dataFile.',fName{1}));
+                    end
                 else
                    data = load(strcat(dbDirectoryPath,'/',fileName));
                    %data = textread(strcat(dbDirectoryPath,'/',fileName),'%s','delimiter','\n','whitespace','','emptyvalue',NaN);

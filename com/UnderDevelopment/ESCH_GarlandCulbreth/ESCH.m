@@ -4,15 +4,25 @@ require(lsa)
 %#Takes a decimal number and converts it to base b.
 %dec.2.base_b <- function(x, b = 2) 
 function [base_b]= decToBaseb(x,b=2)
-%{
+
 %  xi <- as.integer(x)
 xi = floor(x)
 
-  if (any(is.na(xi) | ((x - xi) != 0))) 
-    print(list(ERROR = "x not integer", x = x))
-  N <- length(x)
-  xMax <- max(x)
-  ndigits <- (floor(logb(xMax, base = 2)) + 1)
+
+
+%   if (any(is.na(xi) | ((x - xi) != 0))) 
+%     print(list(ERROR = "x not integer", x = x))
+    
+  if sum(isnan(xi))>0 | (x-xi) !=0 
+      fprintf('x is not integer');
+  end
+%   N <- length(x)
+%   xMax <- max(x)
+    N = length(x);
+    xMax = max(x);
+  %ndigits <- (floor(logb(xMax, base = 2)) + 1)
+  ndigits = floor(log+1)
+  
   Base.b <- array(NA, dim = c(N, ndigits))
   for (i in 1:ndigits) {
     Base.b[, ndigits - i + 1] <- (x%%b)
@@ -390,5 +400,6 @@ baseConvert <- function(x, starting_base=10, target=2)
   
   return(structure(result, dim=olddim))
 }
-
+%}
+end
 
