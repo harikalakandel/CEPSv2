@@ -40,6 +40,10 @@ classdef UTIL_LOAD_DATA
                     catch
                          fName = fieldnames(dataFile);
                          data = eval(strcat('dataFile.',fName{1}));
+                         try
+                             data = data{:,:};%% convet table into matrix
+                         catch
+                         end
                     end
                 else
                    data = load(strcat(dbDirectoryPath,'/',fileName));
