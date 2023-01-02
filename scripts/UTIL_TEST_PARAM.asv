@@ -6214,7 +6214,14 @@ classdef UTIL_TEST_PARAM
                 %  myLegend= FileNameList(fromFile:toFile) ;%strcat('File ',string(yRange));
                 myLegend = FileNameList(fileList);
                 %tabularData = [FileNameList(fromFile:toFile) resultCol];
-               
+                if isempty(columnList)
+                    heading1={};
+                    i=1;
+                    for fID = fileList
+                        currFeatures = 
+                        heading1{i}=FileNameList(fileList)
+                    end
+                end
                 tabularData = [FileNameList(fileList) resultCol];
                 tColumnNames=['' tColumnNames];
             elseif size(allEpochList,2)>1
