@@ -38,7 +38,7 @@ classdef UTIL_EXTRA
 
             app.tabDA_Fig1.Title="Fig1 Not USED";
             app.tabDA_Fig2.Title="Fig2 Not USED";
-             app.tabDA_Fig3.Title="Fig2 Not USED";
+            app.tabDA_Fig3.Title="Fig2 Not USED";
             app.tabDA_Data1.Title="Data1 Not USED";
             app.tabDA_Data2.Title="Data2 Not USED";
             app.tabDA_Data3.Title="Data3 Not USED";
@@ -46,7 +46,10 @@ classdef UTIL_EXTRA
             app.uiTable_DA1.Data=[];
             app.uiTable_DA2.Data=[];
             app.uiTable_DA3.Data=[];
-            app.panelDA_fig1
+            %app.panelDA_fig1.figure=[];
+            
+             app.txtNAI.Text = "--";
+        
 
         end
     
