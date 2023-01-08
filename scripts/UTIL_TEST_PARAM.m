@@ -102,7 +102,7 @@ classdef UTIL_TEST_PARAM
                 allEpochList=1;
             end
 
-            totalCount = size(fileList,2)+size(columnList,2)+isempty(columnList)+size(allEpochList,2)-2;
+            totalCount = (size(fileList,2) > 1 )+ (size(columnList,2) > 1) + isempty(columnList)+(size(allEpochList,2) > 1);
 
             if totalCount >1
                 msgbox('Choose only one range among Files, columns or epochs');
@@ -1221,7 +1221,7 @@ classdef UTIL_TEST_PARAM
 
 
 
-                        elseif(selData(STATISTIC_INDEX_TEST.HRA_Symmetrics)==1)
+                        elseif(selData(STATISTIC_INDEX_TEST.HRA_PI_GI_AI_SI)==1)
 
                             try
                                 cd('../com/ExternalPackages/Ashis');
@@ -3602,7 +3602,7 @@ classdef UTIL_TEST_PARAM
 
 
 
-                        elseif(selData(STATISTIC_INDEX_TEST.CosineSimilarity_CosiEn)==1)
+                        elseif(selData(STATISTIC_INDEX_TEST.CosineSimilarity_CoSiEn)==1)
 
                             try
 
@@ -3677,7 +3677,7 @@ classdef UTIL_TEST_PARAM
 
 
 
-                        elseif(selData(STATISTIC_INDEX_TEST.GriddedDistributed_GridEn)==1)
+                        elseif(selData(STATISTIC_INDEX_TEST.GriddedDistEn_GDistEn)==1)
 
                             try
 
@@ -3749,7 +3749,7 @@ classdef UTIL_TEST_PARAM
                             %% increment
 
 
-                        elseif(selData(STATISTIC_INDEX_TEST.Incremental_IncrEn)==1)
+                        elseif(selData(STATISTIC_INDEX_TEST.IncrementEntropy_IncrEn)==1)
 
                             try
 
@@ -3848,7 +3848,7 @@ classdef UTIL_TEST_PARAM
 
 
 
-                        elseif(selData(STATISTIC_INDEX_TEST.MultiscalePh_MPhEn)==1)
+                        elseif(selData(STATISTIC_INDEX_TEST.MultiscalePhEn_mPhEn)==1)
                             cd('../com/ExternalPackages/Ashis');
                             lagK   =str2double(app.editMPhEnK.Value);
                             lagK1 = str2double(app.editMPhEnK_T1.Value);
@@ -5708,7 +5708,7 @@ classdef UTIL_TEST_PARAM
 
                 %% HRM
 
-            elseif selData(STATISTIC_INDEX_TEST.HRA_Symmetrics)==1
+            elseif selData(STATISTIC_INDEX_TEST.HRA_PI_GI_AI_SI)==1
                 yInfo = app.pMenuHRM.Value;
                 if tau1>tau
                     xRange = tau:paramIncrement:tau1
@@ -5888,6 +5888,27 @@ classdef UTIL_TEST_PARAM
                     %                     xInfo = "Scale";
                     %                     tColumnNames= strcat('scale-',string(xRange));
                 end
+
+
+            elseif selData(STATISTIC_INDEX_TEST.MultiscalePhEn_mPhEn)==1
+                yInfo = "Multiscale Phase Entropy";
+                if lagK1>lagK
+                    xRange = lagK:paramIncrement:lagK1;
+                    xInfo = "Lag (k)";
+                    tColumnNames= strcat('k-',string(xRange));
+                elseif scale1>scale
+                    %xRange = tau:paramIncrement:nRange*paramIncrement+tau;
+                    xRange = scale:paramIncrement:scale1;
+                    xInfo = "Scale (s)";
+                    tColumnNames= strcat('s-',string(xRange));
+                    %                 elseif scale1>scale
+                    %                     xRange = scale:paramIncrement:scale1;
+                    %                     xInfo = "Scale";
+                    %                     tColumnNames= strcat('scale-',string(xRange));
+                end
+
+
+
 
 
 
@@ -6100,7 +6121,7 @@ classdef UTIL_TEST_PARAM
 
 
                 %%Cosin
-            elseif selData(STATISTIC_INDEX_TEST.CosineSimilarity_CosiEn)==1
+            elseif selData(STATISTIC_INDEX_TEST.CosineSimilarity_CoSiEn)==1
                 yInfo = "Cosine Similarity Entropy (CoSi)";
                 if m1>m
                     xRange = m:paramIncrement:m1;
@@ -6125,7 +6146,7 @@ classdef UTIL_TEST_PARAM
 
 
                 %%Grid
-            elseif selData(STATISTIC_INDEX_TEST.GriddedDistributed_GridEn)==1
+            elseif selData(STATISTIC_INDEX_TEST.GriddedDistEn_GDistEn)==1
                 yInfo = "Gridded distribution entropy (GridEn)";
                 if m1>m
                     xRange = m:paramIncrement:m1;
@@ -6147,7 +6168,7 @@ classdef UTIL_TEST_PARAM
 
 
                 %%Incr
-            elseif selData(STATISTIC_INDEX_TEST.Incremental_IncrEn)==1
+            elseif selData(STATISTIC_INDEX_TEST.IncrementEntropy_IncrEn)==1
                 yInfo = "Increment entropy (Incr)";
                 if m1>m
                     xRange = m:paramIncrement:m1;

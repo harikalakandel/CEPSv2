@@ -67,8 +67,9 @@
 
     <Ordinal_Entropies>
         <MultiscalePE_mPE>O</MultiscalePE_mPE>
-        <PermutationRenyiEntropy_PRE>T</PermutationRenyiEntropy_PRE>
-        <PermutationTsallisEntropy_PTE>T</PermutationTsallisEntropy_PTE>
+        <RenyiPermutationEntropy_RPE>T</RenyiPermutationEntropy_RPE>
+        <TsallisPermutationEntropy_TPE>T</TsallisPermutationEntropy_TPE>
+        <AAPE>T</AAPE>
         <ImPE>T</ImPE>
         <mPM_E>O</mPM_E>
     </Ordinal_Entropies>
@@ -103,15 +104,12 @@
     </Other_Entropies>
 
 
-    <Here_we_could_add_entropies_from_EntropyHub>
+    <EntropyHub_Entropies>
         <AttnEn></AttnEn>
-        <cMSEn></cMSEn>
         <CosiEn></CosiEn>
         <GridEn></GridEn>
-        <hMSEn></hMSEn>
         <IncrEn></IncrEn>
-        <rMSEn></rMSEn>
-    </Here_we_could_add_entropies_from_EntropyHub>
+    </EntropyHub_Entropies>
 
     <Time_Frequency_Domain>
         <SpectralEntropy_SpEn>T</SpectralEntropy_SpEn>

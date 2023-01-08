@@ -692,6 +692,54 @@ classdef UTIL_RUN_PIPELINE
 
 
 
+%                     %%%%%%%%%%%% HRA symmetric
+% 
+% 
+% 
+%                     if(selData(STATISTIC_INDEX.HRA_PI_GI_AI_SI)==1)
+%                         tic
+%                         try
+%                             cd('../com/ExternalPackages/Ashis');
+%                             tau   =str2double(app.editHRM_Tau.Value);
+%                             
+% 
+%                             scaleInfo='PI; GI;SI;AI';
+%                             tmpVal= nan(4,size(currData,2));
+% 
+% 
+%                             for v=1:size(currData,2)
+%                                 %tmpVal(1,i)=kstest(currData(isnan(currData(:,i))==0,i),'alpha',alpha);
+%                                 hrm = hrasymm(currData(~isnan(currData(:,v)),v),tau) ;
+%                                 tmpVal(:,v)=[hrm.PI, hrm.GI, hrm.SI, hrm.AI]';
+%                                 
+%                             end
+% 
+%                             % deepak
+%                             StatisticCol{currIndex,STATISTIC_INDEX.HRA_PI_GI_AI_SI}=tmpVal;
+%                             ALL_ScaleHeadingCol{STATISTIC_INDEX.HRA_PI_GI_AI_SI,1}=scaleInfo;
+% 
+% 
+% 
+%                             
+%                             ComputationTime{currIndex,STATISTIC_INDEX.HRA_PI_GI_AI_SI}=toc;
+%                             
+%     
+%                             isError = false;
+%                             throwME(MException("Go To Finally","Finally"));
+%                         catch e %e is an MException struct
+%                             if isError
+%                                 getReport(e)
+% 
+%                             end
+%                             % more error handling...
+% 
+%                             %% moving back
+%                             cd('../../../scripts')
+%                         end
+%                     end
+
+
+
 
 
 
@@ -1914,7 +1962,7 @@ classdef UTIL_RUN_PIPELINE
 
 
                     %%% point care new
-                    if selData(STATISTIC_INDEX.PointCare)==1
+                    if selData(STATISTIC_INDEX.HRA_Accel_Decel)==1
                         tic
                         cd('../com/ExternalPackages/Ashis');
 
@@ -1934,10 +1982,10 @@ classdef UTIL_RUN_PIPELINE
 
                         end
 
-                        StatisticCol{currIndex,STATISTIC_INDEX.PointCare}=tmpVal   ;
-                        ALL_ScaleHeadingCol{STATISTIC_INDEX.PointCare,1}=scaleInfo;
+                        StatisticCol{currIndex,STATISTIC_INDEX.HRA_Accel_Decel}=tmpVal   ;
+                        ALL_ScaleHeadingCol{STATISTIC_INDEX.HRA_Accel_Decel,1}=scaleInfo;
 
-                        ComputationTime{currIndex,STATISTIC_INDEX.PointCare}=toc;
+                        ComputationTime{currIndex,STATISTIC_INDEX.HRA_Accel_Decel}=toc;
 
 
                         clear tmpVal
@@ -2003,7 +2051,7 @@ classdef UTIL_RUN_PIPELINE
 
 
                     %%deepak HRA_Symmetrics
-                    if selData(STATISTIC_INDEX.HRA_Symmetrics)==1
+                    if selData(STATISTIC_INDEX.HRA_PI_GI_AI_SI)==1
                         tic
                         cd('../com/ExternalPackages/Ashis');
 
@@ -2028,9 +2076,9 @@ classdef UTIL_RUN_PIPELINE
 
                         end
 
-                        StatisticCol{currIndex,STATISTIC_INDEX.HRA_Symmetrics}=tmpVal   ;
-                        ALL_ScaleHeadingCol{STATISTIC_INDEX.HRA_Symmetrics,1}=scaleInfo;
-                        ComputationTime{currIndex,STATISTIC_INDEX.HRA_Symmetrics}=toc;
+                        StatisticCol{currIndex,STATISTIC_INDEX.HRA_PI_GI_AI_SI}=tmpVal   ;
+                        ALL_ScaleHeadingCol{STATISTIC_INDEX.HRA_PI_GI_AI_SI,1}=scaleInfo;
+                        ComputationTime{currIndex,STATISTIC_INDEX.HRA_PI_GI_AI_SI}=toc;
 
                         clear tmpVal
                         cd('../../../scripts')
@@ -2175,10 +2223,10 @@ classdef UTIL_RUN_PIPELINE
 
 
 
-                    %%%%%%%%%%%%%%%    ModifiedmSE_MMSE
+                    %%%%%%%%%%%%%%%    Modified_mSE_MmSE
 
 
-                    if selData(STATISTIC_INDEX.ModifiedmSE_MMSE)==1
+                    if selData(STATISTIC_INDEX.Modified_mSE_MmSE)==1
                         tic
                         cd('../com/ExternalPackages/Wu_MMSE');
 
@@ -2204,10 +2252,10 @@ classdef UTIL_RUN_PIPELINE
 
                             end
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.ModifiedmSE_MMSE}=tmpVal   ;
-                            ALL_ScaleHeadingCol{STATISTIC_INDEX.ModifiedmSE_MMSE,1}=scaleInfo;
+                            StatisticCol{currIndex,STATISTIC_INDEX.Modified_mSE_MmSE}=tmpVal   ;
+                            ALL_ScaleHeadingCol{STATISTIC_INDEX.Modified_mSE_MmSE,1}=scaleInfo;
 
-                            ComputationTime{currIndex,STATISTIC_INDEX.ModifiedmSE_MMSE}=toc;
+                            ComputationTime{currIndex,STATISTIC_INDEX.Modified_mSE_MmSE}=toc;
                             throwME(MException("Go To Finally","Finally"));
                         catch
 
@@ -4845,7 +4893,7 @@ function.
 
 
 
-                    if(selData(STATISTIC_INDEX.CosineSimilarity_CosiEn)==1)
+                    if(selData(STATISTIC_INDEX.CosineSimilarity_CoSiEn)==1)
 
                         tic
 
@@ -4878,9 +4926,9 @@ function.
 
 
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.CosineSimilarity_CosiEn}=tmpVal;
+                            StatisticCol{currIndex,STATISTIC_INDEX.CosineSimilarity_CoSiEn}=tmpVal;
 
-                            ComputationTime{currIndex,STATISTIC_INDEX.CosineSimilarity_CosiEn}=toc;
+                            ComputationTime{currIndex,STATISTIC_INDEX.CosineSimilarity_CoSiEn}=toc;
                             isError = false;
                             throwME(MException("Go To Finally","Finally"));
                         catch e %e is an MException struct
@@ -4908,7 +4956,8 @@ function.
                     %%%%------------------------------
 
 
-                    if(selData(STATISTIC_INDEX.GriddedDistributed_GridEn)==1)
+                    if(selData(STATISTIC_INDEX.Gridded DistEn_GDistEn)==1)
+
 
                         tic
 
@@ -4941,9 +4990,9 @@ function.
 
 
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.GriddedDistributed_GridEn}=tmpVal;
+                            StatisticCol{currIndex,STATISTIC_INDEX.Gridded DistEn_GDistEn}=tmpVal;
 
-                            ComputationTime{currIndex,STATISTIC_INDEX.GriddedDistributed_GridEn}=toc;
+                            ComputationTime{currIndex,STATISTIC_INDEX.Gridded DistEn_GDistEn}=toc;
                             isError = false;
                             throwME(MException("Go To Finally","Finally"));
                         catch e %e is an MException struct
@@ -4964,7 +5013,7 @@ function.
 
                     %%%%%%%%%%%%%%-----
 
-                    if(selData(STATISTIC_INDEX.Incremental_IncrEn)==1)
+                    if(selData(STATISTIC_INDEX.IncrementEntropy_IncrEn)==1)
 
                         tic
 
@@ -4996,9 +5045,9 @@ function.
 
 
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.Incremental_IncrEn}=tmpVal;
+                            StatisticCol{currIndex,STATISTIC_INDEX.IncrementEntropy_IncrEn}=tmpVal;
 
-                            ComputationTime{currIndex,STATISTIC_INDEX.Incremental_IncrEn}=toc;
+                            ComputationTime{currIndex,STATISTIC_INDEX.IncrementEntropy_IncrEn}=toc;
                             isError = false;
                             throwME(MException("Go To Finally","Finally"));
                         catch e %e is an MException struct
@@ -5205,7 +5254,7 @@ function.
 
 %%% multiscale phase entropy
 
-                    if(selData(STATISTIC_INDEX.MultiscalePh_MPhEn)==1)
+                    if(selData(STATISTIC_INDEX.MultiscalePhEn_mPhEn)==1)
 
                         tic
 
@@ -5236,7 +5285,7 @@ function.
 
 
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.MultiscalePh_MPhEn}=tmpVal;
+                            StatisticCol{currIndex,STATISTIC_INDEX.MultiscalePhEn_mPhEn}=tmpVal;
                             clear tmpVal
                             %ALL_ScaleHeadingCol{STATISTIC_INDEX.AutoMutual_Information,1}=scaleInfo;
 
@@ -5253,7 +5302,7 @@ function.
                             cd('../../../scripts')
                         end
 
-                        ComputationTime{currIndex,STATISTIC_INDEX.MultiscalePh_MPhEn}=toc;
+                        ComputationTime{currIndex,STATISTIC_INDEX.MultiscalePhEn_mPhEn}=toc;
                     end
 
 

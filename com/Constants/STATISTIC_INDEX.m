@@ -91,10 +91,10 @@ classdef STATISTIC_INDEX
         RQA_marwan=72
         ExtendedPoincare_EPP = 73
         
-        HRA_Symmetrics = 74
+        HRA_PI_GI_AI_SI = 74
         EhlerIndex_EI = 75
-        PointCare = 76
-        AsymmetryIndex_ASI=77
+        HRA_Accel_Decel = 76
+        AsymmSpreadIndex_ASI=77
         ComplexCorrelation_CCM=78
         LZC = 79
         Multiscale_LZC = 80
@@ -125,62 +125,63 @@ classdef STATISTIC_INDEX
         Edge_PE = 100
         ImPE = 101
         mPM_E = 102
+        CPEI_olofsen = 103
        
         
         Conditional_Entropies = -1        
-        ConditionalEntropy_CE = 104
-        CorrectedConditionalEntropy_CCE = 105
-        ApEn = 106
-        ApEn_LightWeight = 107
-        AvgApEn_Profile= 108
-        SampEn_DS = 109
-        SampEn_Richman = 110
-        LightWeightSampEn = 111
-        AvgSampEn_Profile = 112
-        CosEn_And_QSE = 113
-        FixedSampEn_fSampEn=114
-        mSE = 115
+        ConditionalEntropy_CE = 105
+        CorrectedConditionalEntropy_CCE = 106
+        ApEn = 107
+        ApEn_LightWeight = 107+1
+        AvgApEn_Profile= 108+1
+        SampEn_DS = 109+1
+        SampEn_Richman = 110+1
+        LightWeightSampEn = 111+1
+        AvgSampEn_Profile = 112+1
+        CosEn_And_QSE = 113+1
+        FixedSampEn_fSampEn=114+1
+        mSE = 115+1
         
-        ComplexityIndex_CI = 116
-        FuzzyEntropy_FE = 117
-        FuzzyEntropy_CAFE = 118
+        ComplexityIndex_CI = 116+1
+        FuzzyEntropy_FE = 117+1
+        FuzzyEntropy_CAFE = 118+1
        % DistributionEntropy = 75
         
         
         Other_Entropies = -1
-        RCmSE_SD = 120
-        RCmFE_SD = 121
-        RCmDE = 122
-        DistributionEntropy_DistEn = 123
-        SlopeEntropy_SlopeEn = 124
-        BubbleEntropy_BE = 125
-        PhaseEntropy_PhEn = 126
-        MultiscalePh_MPhEn = 127
-        ModifiedmSE_MMSE = 128
-        CompositeMsE_CmSE = 129
+        RCmSE_SD = 120+1
+        RCmFE_SD = 121+1
+        RCmDE = 122+1
+        DistributionEntropy_DistEn = 123+1
+        SlopeEntropy_SlopeEn = 124+1
+        BubbleEntropy_BE = 125+1
+        PhaseEntropy_PhEn = 126+1
+        MultiscalePhEn_mPhEn = 127+1
+        Modified_mSE_MmSE = 128+1
+        CompositeMsE_CmSE = 129+1
 
         EntropyHub_Entropies=-1
         
-        Attention_AttnEn = 131
-        CosineSimilarity_CosiEn= 132
-        GriddedDistributed_GridEn = 133
-        Incremental_IncrEn = 134
+        Attention_AttnEn = 131+1
+        CosineSimilarity_CoSiEn= 132+1
+        GriddedDistEn_GDistEn = 133+1
+        IncrementEntropy_IncrEn = 134+1
         
         
         
         Time_Frequency_Domain = -1
-        SpectralEntropy_SpEn = 136
-        DifferentialEntropy_DiffEn = 137
+        SpectralEntropy_SpEn = 136+1
+        DifferentialEntropy_DiffEn = 137+1
         
         %Nonlinearity_GLC_V1=300
         %Nonlinearity_GLC_V2=301
         %Nonlinearity_GLC_V3=302
         
         AncillaryMethods = -1
-        AutoMutualInformation_AMI = 139
-        FalseNearestNeighbours_FNN=140
-        AverageFalseNeighbours_AFN = 141
-        CPEI_olofsen = 142
+        AutoMutualInformation_AMI = 139+1
+        FalseNearestNeighbours_FNN=140+1
+        AverageFalseNeighbours_AFN = 141+1
+       
 
         
        

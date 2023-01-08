@@ -1071,7 +1071,7 @@ classdef UTIL_GUI
 
 
             app.uiPanelPhaseEntropy.Visible = selData(STATISTIC_INDEX.PhaseEntropy_PhEn);
-            app.uiPanelMScalsePhaseEntropy.Visible = selData(STATISTIC_INDEX.MultiscalePh_MPhEn);
+            app.uiPanelMScalsePhaseEntropy.Visible = selData(STATISTIC_INDEX.MultiscalePhEn_mPhEn);
 
 
             app.uiPanelAFN.Visible = selData(STATISTIC_INDEX.AverageFalseNeighbours_AFN);
@@ -1087,10 +1087,10 @@ classdef UTIL_GUI
 
 
 
-            app.uiPanelIncrEn.Visible = selData(STATISTIC_INDEX.Incremental_IncrEn);
-            app.uiPanelGridEn.Visible = selData(STATISTIC_INDEX.GriddedDistributed_GridEn);
+            app.uiPanelIncrEn.Visible = selData(STATISTIC_INDEX.IncrementEntropy_IncrEn);
+            app.uiPanelGridEn.Visible = selData(STATISTIC_INDEX.GriddedDistEn_GDistEn);
 
-            app.uiPanelCosiEN.Visible = selData(STATISTIC_INDEX.CosineSimilarity_CosiEn);
+            app.uiPanelCosiEN.Visible = selData(STATISTIC_INDEX.CosineSimilarity_CoSiEn);
             app.uiPaneAttnEN.Visible = selData(STATISTIC_INDEX.Attention_AttnEn);
 
 
@@ -1100,10 +1100,10 @@ classdef UTIL_GUI
 
 
 
-            app.uiPanelModifiedMSE.Visible = selData(STATISTIC_INDEX.ModifiedmSE_MMSE);
-            app.uiPanelHRM_Measures.Visible = selData(STATISTIC_INDEX.HRA_Symmetrics);  %% ??????????
+            app.uiPanelModifiedMSE.Visible = selData(STATISTIC_INDEX.Modified_mSE_MmSE);
+            app.uiPanelHRM_Measures.Visible = selData(STATISTIC_INDEX.HRA_PI_GI_AI_SI);  %% ??????????
 
-            %%app.uiPanelModifiedMSE.Visible =   selData(STATISTIC_INDEX.ModifiedmSE_MMSE);  ???
+            %%app.uiPanelModifiedMSE.Visible =   selData(STATISTIC_INDEX.Modified_mSE_MmSE);  ???
 
             app.uiPanelEDD_Kalauzi.Visible = selData(STATISTIC_INDEX.EEP_Kalauzi);
 

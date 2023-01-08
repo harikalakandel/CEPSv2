@@ -1,7 +1,7 @@
 %DECLARE SUB DataInput (x!, y!, N%)
 %function DataInput(x,y,N)
 
-function[D]= SevickFD(y)
+function[D]= SevcikFD(y)
 %DIM x!(300), y!(300)
 %CLS
 %PRINT "Fractal Dimension of Waveforms": PRINT
