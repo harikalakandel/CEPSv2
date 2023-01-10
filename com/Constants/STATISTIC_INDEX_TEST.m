@@ -177,7 +177,7 @@ classdef STATISTIC_INDEX_TEST
         AutoMutualInformation_AMI = 139+1
         FalseNearestNeighbours_FNN=140+1
         AverageFalseNeighbours_AFN = 141+1
-        CPEI_olofsen = 142+1
+       
 
         
        
