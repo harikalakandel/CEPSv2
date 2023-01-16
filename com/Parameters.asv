@@ -228,9 +228,9 @@
         
 
        <COEFF_SE>
-            <m desc="enbedding dimension">2</m>
-            <cosR desc="threshold">0.2</cosR>
-            <tau desc="time delay">1</tau>
+            <m desc="enbedding dimension">-111</m>
+            <cosR desc="threshold">-111</cosR>
+            <tau desc="time delay">-111</tau>
        </COEFF_SE>
 
 
@@ -385,7 +385,7 @@
         </CCM>
 
       <COMPOSIT_MSE>    		
-            <scale>3</k>            
+            <scale>3</scale>            
         </COMPOSIT_MSE>
         
         <EOD>
@@ -402,9 +402,9 @@
         
         
        
-        <MODIFIED_MSEY>    		
+        <MODIFIED_MSE>    		
             <scale >-1111</scale>
-        </MODIFIED_MSEY>
+        </MODIFIED_MSE>
         
         <ATTN_EN>
             <logx desc='Logx 0 to 4'>2</logx>
@@ -472,7 +472,7 @@
       </SHANNON_EXTROPY>
 
       <ATTENTION_EN>
-          <logX>-111</logX>
+          <logX>2</logX>
           
       </ATTENTION_EN>
 
@@ -482,11 +482,7 @@
           
        </MULTISCALE_FD>
 
-       <MULTISCALE_PE>
-           <k>2</k>
-           <scale>2</scale>
-          
-      </MULTISCALE_PE>
+      
         
 
         <NLDWAN_FD>
@@ -501,11 +497,22 @@
            <ws desc="Moving Window Steps">3</ws>
           
       </NLDIAN_FD>
+      
+      <NAI>
+           <steps>5</steps>
+           <minOrder>1</minOrder>
+           <maxOrder>100</maxOrder>
+          
+      </NAI>
+      
+      <FRP>
+           <dim>3</dim>
+           <tau>1</tau>
+           <cluster></cluster>
+          
+      </FRP>
          
-        
-        
-       
-     
+    
         
     </dbFileParam>
        

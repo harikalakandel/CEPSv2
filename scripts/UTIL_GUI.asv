@@ -960,24 +960,9 @@ classdef UTIL_GUI
                     app.editK_EDD_WS_T1.Value =  Param.KALAUZI_EDD.windowS.Text
 
 
-                    app.editNAI_steps.Value =  Param.NAI.steps.Text;
-                    app.editNAI_steps_T1.Value =  Param.NAI.steps.Text;
-                    app.editNAI_minOrder.Value  =  Param.NAI.minOrder.Text;
-                    app.editNAI_minOrder_T1.Value  =  Param.NAI.minOrder.Text;
-                    app.editNAI_maxOrder.Value  =  Param.NAI.maxOrder.Text;
-                    app.editNAI_maxOrder_T1.Value  =  Param.NAI.maxOrder.Text;
-                    
-                    
-                    
-                    
-                    app.editFRP_dim.Value =  Param.FRP.dim.Text;
-                    app.editFRP_dim_T1.Value =  Param.FRP.dim.Text;
-                    app.editFRP_tau.Value  =  Param.FRP.tau.Text;
-                    app.editFRP_tau_T1.Value  =  Param.FRP.tau.Text;
-                    app.editFRP_cluster.Value  =  Param.FRP.cluster.Text;
-                    app.editFRP_cluster_T1.Value  =  Param.FRP.cluster.Text;
-                    
-                    
+                    app.editNAI_steps_T1
+                    aeditNAI_minOrder_T1
+                    editNAI_maxOrder_T1
 
 
                     %working2
@@ -1131,8 +1116,6 @@ classdef UTIL_GUI
             app.uiPanelShannonEx.Visible =   selData(STATISTIC_INDEX.ShannonExtropy_SEx);
 
             app.uiPanelNAI.Visible =   selData(STATISTIC_INDEX.NormalizedAsymmetricIndex_NAI);
-            
-            app.uiPanelFRP.Visible =   selData(STATISTIC_INDEX.FuzzyRecurrentPlot_FRP);
 
         end
 
@@ -1302,9 +1285,21 @@ classdef UTIL_GUI
             app.chkFE_CAFE_Type.Visible = ON_OFF;
 
 
+
+
+
+
+
             app.editDE_M_T1.Visible = ON_OFF;
             app.editDE_B_T1.Visible = ON_OFF;
             app.editDE_Tau_T1.Visible = ON_OFF;
+
+
+
+
+
+
+
 
             %%phase entropy
             app.editPhEnK_T1.Visible = ON_OFF;
@@ -1480,11 +1475,6 @@ classdef UTIL_GUI
             app.editNAI_steps_T1.Visible = ON_OFF;
             app.editNAI_minOrder_T1.Visible = ON_OFF;
             app.editNAI_maxOrder_T1.Visible = ON_OFF;
-            
-            
-            app.editFRP_dim_T1.Visible = ON_OFF;
-            app.editFRP_tau_T1.Visible = ON_OFF;
-            app.editFRP_cluster_T1.Visible = ON_OFF;
 
 
 

@@ -643,8 +643,9 @@ classdef UTIL_RUN_PIPELINE
                     
                     
                     
-                    %%%%% NAI                    
-                                     
+                    %%%%% NAI
+                    
+                                       
                     
                     if(selData(STATISTIC_INDEX.NormalizedAsymmetricIndex_NAI)==1)
                         tic
@@ -695,67 +696,6 @@ classdef UTIL_RUN_PIPELINE
 
                     end
 
-                    
-                    
-                    %%% FRP
-                    
-                    
-                    
-                     %%%%% NAI                    
-                                     
-                    
-                    if(selData(STATISTIC_INDEX.FuzzyRecurrentPlot_FRP)==1)
-                        tic
-                        try
-                            cd('../com/ExternalPackages/FRE-matlab');
-                            set(0,'DefaultFigureVisible','off');
-                            dim = str2double(app.editFRP_dim.Value);
-                            tau = str2double(app.editFRP_tau.Value);
-                            cluster = str2double(app.editFRP_cluster.Value);
-                           
-                            
-                            tmpVal= nan(1,size(currData,2));
-
-
-                            for i=1:size(currData,2)
-                                %tmpVal(1,i)=kstest(currData(isnan(currData(:,i))==0,i),'alpha',alpha);
-                             
-                                
-                               
-                                tmpVal(1,i)=fuzzyEntropy_frp(currData(isnan(currData(:,i))==0,i),dim, tau, cluster);
-                                
-                                
-                                
-                            end
-
-                            % deepak
-                            StatisticCol{currIndex,STATISTIC_INDEX.FuzzyRecurrentPlot_FRP}=tmpVal;
-                           
-
-
-
-                            
-                            ComputationTime{currIndex,STATISTIC_INDEX.FuzzyRecurrentPlot_FRP}=toc;
-                            
-    
-                            isError = false;
-                            throwME(MException("Go To Finally","Finally"));
-                        catch e %e is an MException struct
-                            if isError
-                                getReport(e)
-
-                            end
-                            % more error handling...
-
-                            %% moving back
-                            cd('../../../scripts')
-                            set(0,'DefaultFigureVisible','on');
-                        end
-
-
-                    end
-
-                    
                     
                     
                     
@@ -5080,7 +5020,7 @@ function.
                     %%%%------------------------------
 
 
-                    if(selData(STATISTIC_INDEX.GriddedDistEn_GDistEn)==1)
+                    if(selData(STATISTIC_INDEX.Gridded DistEn_GDistEn)==1)
 
 
                         tic
@@ -5114,9 +5054,9 @@ function.
 
 
 
-                            StatisticCol{currIndex,STATISTIC_INDEX.GriddedDistEn_GDistEn}=tmpVal;
+                            StatisticCol{currIndex,STATISTIC_INDEX.Gridded DistEn_GDistEn}=tmpVal;
 
-                            ComputationTime{currIndex,STATISTIC_INDEX.GriddedDistEn_GDistEn}=toc;
+                            ComputationTime{currIndex,STATISTIC_INDEX.Gridded DistEn_GDistEn}=toc;
                             isError = false;
                             throwME(MException("Go To Finally","Finally"));
                         catch e %e is an MException struct

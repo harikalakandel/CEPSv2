@@ -1,4 +1,4 @@
-function FRP = frp(x,dim,tau,ncluster,T)
+function FRP = frp(x,dim,tau,cluster,T)
 %------------------------------------------------------------------------
 % Reference: T.D. Pham, Fuzzy recurrence plots, EPL (Europhysics Letters) 116 (2016) 50008.
 % Acknowledgement: with programming assistance of Taishi Abe
@@ -7,8 +7,8 @@ function FRP = frp(x,dim,tau,ncluster,T)
 %       x: time series
 %       dim: embedding dimension of a reconstructed phase space (default value: 3)
 %       tau: time delay to reconstruct phase space (default value: 1)
-%       ncluster: number of clusters for fuzzy c-means clustering (default value: 2)
-%       T: cut-off fuzzy membership threshold to change grayscale to black and white.  If threshold
+%       cluster: number of clusters for fuzzy c-means clustering (default value: 2)
+%       T: cuttoff fuzzy membership threshold to change grayscale to black and white.  If threshold
 %       is not given, FRP takes grayscale values in [0 1].  (default value: NaN)
 %
 % Output:
@@ -23,14 +23,14 @@ switch nargin
     case 1
         dim=3;
         tau=1;
-        ncluster=2;
+        cluster=2;
         T=NaN;
     case 2
         tau=1;
-        ncluster=2;
+        cluster=2;
         T=NaN;
     case 3
-        ncluster=2;
+        cluster=2;
         T=NaN;
     case 4
         T=NaN;
@@ -52,15 +52,15 @@ for i=1:M
     end
 end
 
-[~, FR, ~] = fcm(PS, ncluster); % use fuzzy c-means from Matlab toolbox
+[~, FR, ~] = fcm(PS, cluster); % use fuzzy c-means from Matlab toolbox
 
-cRP=zeros(length(FR),length(FR),ncluster);
+cRP=zeros(length(FR),length(FR),cluster);
 
-for c=1:ncluster
+for c=1:cluster
     for i=1:length(FR)
         for j=1:length(FR)
             if norm(PS(i,:) - PS(j,:)) == 0
-                cRP(i,j,c)= 1; % reflexive
+                cRP(i,j,c)= 1; % reflexibility
             elseif FR(c,i)>=FR(c,j)    
                 cRP(i,j,c)=FR(c,j);
             else
@@ -71,7 +71,7 @@ for c=1:ncluster
 end
 
 FRP=zeros(length(cRP),length(cRP));
-for c=1:ncluster
+for c=1:cluster
     for i=1:length(cRP)
         for j=1:length(cRP)
             if c==1
@@ -92,9 +92,12 @@ end
 
 FRP=imcomplement(FRP); % making dark pixels for recurrences
 
+%%{
 figure
 imshow(FRP)
-% print('frpFigure', '-deps', '-r300');
+%print('frp', '-deps', '-r600');
+%}
+
 
 end
 

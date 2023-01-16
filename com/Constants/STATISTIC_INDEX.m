@@ -94,7 +94,7 @@ classdef STATISTIC_INDEX
         HRA_PI_GI_AI_SI = 74
         EhlerIndex_EI = 75
         HRA_Accel_Decel = 76
-        AsymmSpreadIndex_ASI=77
+        AsymmetryIndex_ASI=77
         ComplexCorrelation_CCM=78
         LZC = 79
         Multiscale_LZC = 80
@@ -181,6 +181,8 @@ classdef STATISTIC_INDEX
         AutoMutualInformation_AMI = 139+1
         FalseNearestNeighbours_FNN=140+1
         AverageFalseNeighbours_AFN = 141+1
+        NormalizedAsymmetricIndex_NAI = 141+2
+        FuzzyRecurrentPlot_FRP = 141+2+1
        
 
         

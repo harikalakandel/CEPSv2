@@ -2932,9 +2932,9 @@ classdef UTIL_TEST_PARAM
                                         for pA=a:paramIncrement:a1
 
                                             tic
-                                           
+                                            tmpData = currData';
                                             %AAPE(y,m,varargin)
-                                            resultCol{xIndex,yIndex} = fuzzyEntropy_frp(currData(isnan(currData(:,v))==0,v),pM, pT, pA);
+                                            resultCol{xIndex,yIndex} = fuzzyEntropy_frp(tmpData(isnan(tmpData(:,v))==0,v),pM, pT, pA);
                                             testRunTime=[testRunTime;toc];
                                             yIndex=yIndex+1;
                                         end                                      

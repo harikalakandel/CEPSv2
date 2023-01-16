@@ -94,7 +94,7 @@ classdef STATISTIC_INDEX_TEST
          HRA_PI_GI_AI_SI = 74
 %         EhlerIndex_EI = 75
 %         HRA_Accel_Decel = 76
-%         AsymmSpreadIndex_ASI=77
+%         AsymmetryIndex_ASI=77
         ComplexCorrelation_CCM=78
 %         LZC = 79
         Multiscale_LZC = 80
@@ -179,7 +179,9 @@ classdef STATISTIC_INDEX_TEST
         AverageFalseNeighbours_AFN = 141+1
        
 
+        NormalizedAsymmetricIndex_NAI = 141+2
         
+        FuzzyRecurrentPlot_FRP = 141+2+1
        
         
         %Farara_D2 = 96
